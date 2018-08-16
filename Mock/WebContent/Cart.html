@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<title>新規登録</title>
+	<title>カート</title>
 </head>
 <body>
 	<header>
@@ -19,31 +19,32 @@
 	</header>
 	<div class="container">
 		<form action="">
+			<h1>カート</h1>
 			<div>
-				<h1>新規登録</h1>
-				<table>
+				<table class="list">
+					<thead>
+						<tr>
+							<td>商品名</td>
+							<td>個数</td>
+							<td></td>
+						</tr>
+					</thead>
 					<tr>
-						<th>名前</th>
-						<td><input type="text" name="name"></td>
+						<td>サンプル商品1</td>
+						<td><input type="number" name="number" value="1" min="0" max="99"></td>
+						<td><button>取り消し</button></td>
 					</tr>
 					<tr>
-						<th>住所</th>
-						<td><input type="text" name="address"></td>
+						<td>サンプル商品2</td>
+						<td><input type="number" name="number" value="1" min="0" max="99"></td>
+						<td><button>取り消し</button></td>
 					</tr>
 					<tr>
-						<th>メールアドレス</th>
-						<td><input type="email" name="email"></td>
-					</tr>
-					<tr>
-						<th>パスワード</th>
-						<td><input type="password" name="pass"></td>
-					</tr>
-					<tr>
-						<th>パスワード(確認)</th>
-						<td><input type="password" name="rePass"></td>
+						<td>サンプル商品3</td>
+						<td><input type="number" name="number" value="1" min="0" max="99"></td>
+						<td><button>取り消し</button></td>
 					</tr>
 				</table>
-				<h2><button>登録</button></h2>
 			</div>
 		</form>
 	</div>
