@@ -29,14 +29,14 @@ h1{
 	font-size:250%;
 	padding:30px 0px;
 }
-.pad{
+.search{
 	padding:20px 0px;
 }
-.inline *{
+.search *,.h-nav *{
 	display:inline;
 	vertical-align:middle;
 }
-.f-right{
+.h-nav{
 	float:right;
 }
 .logo{
@@ -65,6 +65,8 @@ input[type="text"],input[type="password"],input[type="email"]{
 table{
 	width:100%;
 	background-color:inherit;
+	margin-left:auto;
+	margin-right:auto;
 	margin-bottom:4rem;
 }
 th{
@@ -78,5 +80,4 @@ thead{
 }
 .list{
 	width:80%;
-	margin:auto;
 }
