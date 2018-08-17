@@ -9,7 +9,7 @@ box-sizing:border-box;
 	flex-grow:1;
 }
 body{
-	width:600px;
+	width:1000px;
 	min-height:100%;
 	display:flex;
 	flex-direction:column;
@@ -29,14 +29,17 @@ h1{
 	font-size:250%;
 	padding:30px 0px;
 }
-.search{
+h2{
 	padding:20px 0px;
 }
-.search *,.h-nav *{
+.pad{
+	padding:20px 0px;
+}
+.inline *{
 	display:inline;
 	vertical-align:middle;
 }
-.h-nav{
+.f-right{
 	float:right;
 }
 .logo{
@@ -67,7 +70,7 @@ table{
 	background-color:inherit;
 	margin-left:auto;
 	margin-right:auto;
-	margin-bottom:4rem;
+	margin-bottom:1rem;
 }
 th{
 	width:40%;
@@ -77,6 +80,11 @@ thead{
 	border:2px;
 	border-color:#000000;
 	border-style:none none solid;
+}
+tfoot{
+	border:4px;
+	border-color:#000000;
+	border-style:double none none;
 }
 .list{
 	width:80%;
