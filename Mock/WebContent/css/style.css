@@ -37,7 +37,9 @@ h2{
 }
 .inline *{
 	display:inline;
-	vertical-align:middle;
+}
+.f-left{
+	float:left;
 }
 .f-right{
 	float:right;
@@ -46,35 +48,33 @@ h2{
 	font-size:200%;
 }
 a{
+	font-weight:bolder;
 	text-decoration:none;
 	color:inherit;
 }
 a:hover,button:hover{
 	opacity:0.5;
 }
-input,button,input:active,button:active{
+input,button{
+	font-weight:bolder;
 	outline:none;
 	background-color:inherit;
-	height:1.3rem;
+	height:1.5rem;
 	font-size:1rem;
-	margin:0px;
-	padding:0px;
 	border-color:#000000;
-	border-style:none none solid;
+	border-style:none;
+	vertical-align:baseline;
 }
-input[type="text"],input[type="password"],input[type="email"]{
-	width:15rem;
+input[type="number"]{
+	border:thin inset;
 }
 table{
 	width:100%;
 	background-color:inherit;
-	margin-left:auto;
-	margin-right:auto;
-	margin-bottom:1rem;
+	margin:auto;
 }
 th{
-	width:40%;
-	padding:1rem 0rem 1rem 15%;
+	width:30%;
 }
 thead{
 	border:2px;
@@ -86,6 +86,61 @@ tfoot{
 	border-color:#000000;
 	border-style:double none none;
 }
-.list{
+.main-container{
 	width:80%;
+	margin:auto;
+}
+.grid{
+	display:flex;
+	flex-flow: row wrap;
+	justify-content:center;
+}
+.content{
+	width:20%;
+	padding:10px;
+}
+.content *{
+	font-weight:normal;
+}
+.content img{
+	width:100%;
+	height:auto;
+}
+.form input,.form button{
+	margin:0px;
+	padding:0px;
+	border-color:#000000;
+	border-style:none none solid;
+}
+.form input{
+	font-weight:normal;
+	width:15rem;
+	vertical-align:top;
+}
+.form td,.form th{
+	height:3rem;
+}
+.product{
+	width:50%;
+}
+.product table{
+	width:10rem;
+}
+.product input{
+	width:100%;
+}
+.product img{
+	width:100%;
+	height:auto;
+}
+.text{
+	text-align:justify;
+	width:50%;
+	padding:0rem 1rem;
+}
+.flex{
+	display:flex;
+}
+#sample{
+	height:300px;
 }
