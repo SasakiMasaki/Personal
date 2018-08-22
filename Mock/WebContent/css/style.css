@@ -35,6 +35,9 @@ h2{
 .pad{
 	padding:20px 0px;
 }
+td{
+	white-space:nowrap;
+}
 .result,.result td{
 	table-layout:fixed;
 	border:1px solid;
@@ -73,10 +76,12 @@ a{
 	text-decoration:none;
 	color:inherit;
 }
-a:hover,button:hover{
+a:hover,button:hover,label:hover{
 	opacity:0.5;
 }
-input,button{
+input,button,label{
+	margin:0px;
+	padding:0px;
 	font-weight:bolder;
 	outline:none;
 	background-color:inherit;
@@ -86,8 +91,14 @@ input,button{
 	border-style:none;
 	vertical-align:baseline;
 }
-input[type="number"]{
+input[type="number"],textarea{
 	border:thin inset;
+}
+textarea{
+	text-align:justify;
+}
+label>input[type="file"]{
+	display:none;
 }
 table{
 	width:100%;
@@ -128,8 +139,6 @@ tfoot{
 	height:auto;
 }
 .form input,.form button{
-	margin:0px;
-	padding:0px;
 	border-color:#000000;
 	border-style:none none solid;
 }
@@ -145,7 +154,7 @@ tfoot{
 	width:50%;
 }
 .product table{
-	width:10rem;
+	width:15rem;
 }
 .product input{
 	width:100%;

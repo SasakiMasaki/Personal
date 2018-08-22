@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>「サンプル商品」の編集ページ</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<a class="logo" href="adminTop.html">MyEC</a>
+			<ul class="f-right inline">
+				<li><a href="top.html">ログアウト</a></li>
+			</ul>
+		</nav>
+	</header>
+	<div class="container">
+		<form action="adminDetail.html">
+			<div class="main-container">
+				<h2>「サンプル商品」の編集ページ</h2>
+				<div class="flex">
+					<div class="product">
+						<img alt="サンプル商品の画像" src="img/f_f_business_38_s512_f_business_38_1bg.png">
+						<table>
+							<tr>
+								<th>画像</th>
+								<td>
+									<label for="file_upload">
+										ファイルを選択
+										<input type="file" id="file_upload">
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th>単価</th>
+								<td><input type="number" name="number" value="123456789" min="1" max="999999999">円</td>
+							</tr>
+						</table>
+						<ul class="inline">
+							<li><button>更新</button></li>
+							<li><a href="adminDelete.html">削除</a></li>
+						</ul>
+
+					</div>
+					<div class="text">
+						<textarea rows="20" cols="40">サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。サンプル商品の説明。</textarea>
+					</div>
+				</div>
+				<h2>
+					<a href="adminTop.html">戻る</a>
+				</h2>
+			</div>
+		</form>
+	</div>
+	<footer>
+		<p>© 2018 Masaki Sasaki</p>
+	</footer>
+</body>
+</html>
