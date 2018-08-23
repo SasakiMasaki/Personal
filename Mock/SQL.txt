@@ -1,0 +1,41 @@
+CREATE DATABASE my_ec DEFAULT CHARACTER SET utf8;
+
+USE my_ec;
+
+CREATE TABLE user(
+	id SERIAL
+	, name VARCHAR(256) NOT NULL
+	, address VARCHAR(256) NOT NULL
+	, email VARCHAR(256) NOT NULL
+	, password VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE item(
+	id SERIAL
+	, name VARCHAR(256) NOT NULL
+	, detail TEXT NOT NULL
+	, price INT NOT NULL
+	, file_name VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE buy(
+	id SERIAL
+	, user_id INT
+	, total_price INT
+	, delivery_method INT
+	, create_date DATETIME
+);
+
+CREATE TABLE delivery_method(
+	id SERIAL
+	, name VARCHAR(256)
+	, price INT
+);
+
+CREATE TABLE buy_detail(
+	id SERIAL
+	, buy_id INT
+	, item_id INT
+	, item_number INT
+);
+
