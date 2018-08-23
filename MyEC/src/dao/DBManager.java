@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBManager {
-	private static String url = "";
+	private static String url = "jdbc:mysql://localhost:3306/my_ec?useUnicode=true&characterEncoding=utf8";
 	private static String user = "root";
 	private static String password = "password";
 
