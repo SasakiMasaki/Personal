@@ -1,6 +1,7 @@
 package myec;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +33,14 @@ public class Regist extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/regist.jsp");
+		HttpSession session = request.getSession();
+
+		if(Controllor.getSessionAttribute(session, "return") != null) {
+			request.setAttribute("udb", Controllor.getSessionAttribute(session, "udb"));
+		}else{
+			request.setAttribute("udb", new UserDataBeans());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_PAGE);
 		dispatcher.forward(request, response);
 	}
 
@@ -40,32 +48,41 @@ public class Regist extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		String name = request.getParameter("name");
-		String address = request.getParameter("address");
-		String email = request.getParameter("email");
-		String errMsg = "";
-		UserDataBeans udb = new UserDataBeans();
 
-		udb.setName(name);
-		udb.setAddress(address);
-		udb.setEmail(email);
+		try {
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			String confirmPassword = request.getParameter("confirm_password");
+			String errMsg = "";
+			UserDataBeans udb = new UserDataBeans();
 
-		if(!request.getParameter("pass").equals(request.getParameter("rePass"))) {
-			errMsg = "入力されたパスワードと確認用パスワードが異なります。<br>";
-		}
+			udb.setName(name);
+			udb.setAddress(address);
+			udb.setEmail(email);
+			udb.setPassword(password);
 
-		if(UserDao.isOverlapEmail(email)) {
-			errMsg += "入力されたメールアドレスは既に使用されています。";
-		}
+			if(!password.equals(confirmPassword)){
+				errMsg = "入力されたパスワードと確認用パスワードが異なります。<br>";
+			}
 
-		if(errMsg.length()!=0) {
-			session.setAttribute("udb", udb);
-			session.setAttribute("errMsg", errMsg);
-			request.getRequestDispatcher("/WEB-INF/jsp/regist.jsp").forward(request, response);
-		}else {
-			request.setAttribute("udb", udb);
-			request.getRequestDispatcher("/WEB-INF/jsp/registconfirm.jsp").forward(request, response);
+			if(UserDao.isOverlapEmail(email)) {
+				errMsg += "入力されたメールアドレスは既に使用されています。";
+			}
+
+			if(errMsg.length()!=0) {
+				request.setAttribute("udb", udb);
+				request.setAttribute("errMsg", errMsg);
+				request.getRequestDispatcher(Controllor.REGIST_PAGE).forward(request, response);
+			}else {
+				session.setAttribute("udb", udb);
+				response.sendRedirect("RegistConfirm");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
 	}
 

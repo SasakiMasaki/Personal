@@ -171,6 +171,10 @@ tfoot{
 .flex{
 	display:flex;
 }
+.warning{
+	color:#F44336 !important;
+	font-weight:bolder;
+}
 #sample{
 	height:300px;
 }

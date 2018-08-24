@@ -7,13 +7,13 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>登録情報確認画面</title>
 	<%
-		UserDataBeans udb = (UserDataBeans)request.getAttribute("udb");
+		UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
 	%>
 </head>
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="login.html">
+		<form action="RegistConfirm" method="post">
 			<div class="main-container">
 				<h1>新規登録</h1>
 				<table>
@@ -36,8 +36,8 @@
 			</table>
 				<h2>上記内容で情報を登録します。</h2>
 				<ul class="inline">
-					<li><a href="cart2.html">戻る</a></li>
-					<li><a href="buyConfirm.html">確定する</a></li>
+					<li><button type="submit" name="confirm" value="cancel">戻る</button></li>
+					<li><button type="submit" name="confirm" value="regist">確定する</button></li>
 				</ul>
 			</div>
 		</form>
