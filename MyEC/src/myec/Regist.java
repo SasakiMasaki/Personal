@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import beans.UserDataBeans;
+import dao.UserDao;
 
 /**
  * Servlet implementation class Regist
@@ -36,8 +40,33 @@ public class Regist extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String email = request.getParameter("email");
+		String errMsg = "";
+		UserDataBeans udb = new UserDataBeans();
+
+		udb.setName(name);
+		udb.setAddress(address);
+		udb.setEmail(email);
+
+		if(!request.getParameter("pass").equals(request.getParameter("rePass"))) {
+			errMsg = "入力されたパスワードと確認用パスワードが異なります。<br>";
+		}
+
+		if(UserDao.isOverlapEmail(email)) {
+			errMsg += "入力されたメールアドレスは既に使用されています。";
+		}
+
+		if(errMsg.length()!=0) {
+			session.setAttribute("udb", udb);
+			session.setAttribute("errMsg", errMsg);
+			request.getRequestDispatcher("/WEB-INF/jsp/regist.jsp").forward(request, response);
+		}else {
+			request.setAttribute("udb", udb);
+			request.getRequestDispatcher("/WEB-INF/jsp/registconfirm.jsp").forward(request, response);
+		}
 	}
 
 }

@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import beans.UserDataBeans;
 
 public class UserDao {
-	public void addUser(UserDataBeans udb) throws SQLException{
+
+	public static void addUser(UserDataBeans udb) throws SQLException{
 		Connection con = null;
 		PreparedStatement st = null;
 
@@ -28,5 +29,11 @@ public class UserDao {
 				con.close();
 			}
 		}
+	}
+
+	public static boolean isOverlapEmail(String email) {
+		boolean isOverlap = false;
+
+		return isOverlap;
 	}
 }
