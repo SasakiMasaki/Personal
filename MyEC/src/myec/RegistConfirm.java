@@ -1,7 +1,6 @@
 package myec;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,9 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import beans.UserDataBeans;
-import dao.UserDao;
 
 /**
  * Servlet implementation class RegistConfirm
@@ -42,24 +38,17 @@ public class RegistConfirm extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		UserDataBeans udb = new UserDataBeans();
 		String confirm = request.getParameter("confirm");
 
-		try {
-			switch(confirm) {
-			case("cancel"):
-				session.setAttribute("return", true);
-				response.sendRedirect("Regist");
-				break;
+		switch(confirm) {
+		case("cancel"):
+			session.setAttribute("return", true);
+			response.sendRedirect("Regist");
+			break;
 
-			case("confirm"):
-				udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
-				UserDao.addUser(udb);
-				response.sendRedirect("RegistResult");
-				break;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
+		case("regist"):
+			response.sendRedirect("RegistResult");
+			break;
 		}
 	}
 

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBManager {
-	private static String url = "jdbc:mysql://localhost:3306/my_ec?useUnicode=true&characterEncoding=utf8";
+	private static String url = "jdbc:mysql://localhost/my_ec?useUnicode=true&characterEncoding=utf8";
 	private static String user = "root";
 	private static String password = "password";
 
@@ -14,6 +14,7 @@ public class DBManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
+			System.out.println("DB connected");
 		}catch(SQLException|ClassNotFoundException e) {
 			e.printStackTrace();
 		}

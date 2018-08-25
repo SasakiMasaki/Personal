@@ -1,6 +1,12 @@
 package myec;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 
 public class Controllor {
 
@@ -14,5 +20,17 @@ public class Controllor {
 		Object attribute = session.getAttribute(str);
 		session.removeAttribute(str);
 		return attribute;
+	}
+
+	public static String hashStr(String str) throws NoSuchAlgorithmException{;
+		try {
+			Charset charset = StandardCharsets.UTF_8;
+			String algorithm = "MD5";
+			byte[] bytes = MessageDigest.getInstance(algorithm).digest(str.getBytes(charset));
+			str = DatatypeConverter.printHexBinary(bytes);
+		}catch(NoSuchAlgorithmException e) {
+			e.getStackTrace();
+		}
+		return str;
 	}
 }

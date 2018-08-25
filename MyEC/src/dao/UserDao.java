@@ -1,15 +1,17 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import beans.UserDataBeans;
+import myec.Controllor;
 
 public class UserDao {
 
-	public static void addUser(UserDataBeans udb) throws SQLException{
+	public static void addUser(UserDataBeans udb) throws SQLException, NoSuchAlgorithmException{
 		Connection con = null;
 		PreparedStatement st = null;
 
@@ -19,7 +21,7 @@ public class UserDao {
 			st.setString(1, udb.getName());
 			st.setString(2, udb.getAddress());
 			st.setString(3, udb.getEmail());
-			st.setString(4, udb.getPassword());
+			st.setString(4, Controllor.hashStr(udb.getPassword()));
 			st.executeUpdate();
 			System.out.println("adding user has succeeded");
 		}catch(SQLException e) {
