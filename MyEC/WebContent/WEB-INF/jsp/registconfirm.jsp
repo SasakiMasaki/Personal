@@ -7,7 +7,7 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>登録情報確認画面</title>
 	<%
-		UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
+		UserDataBeans udb = (UserDataBeans)request.getAttribute("udb");
 	%>
 </head>
 <body>

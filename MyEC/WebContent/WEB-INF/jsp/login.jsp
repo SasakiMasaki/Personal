@@ -28,7 +28,7 @@
 						<td><input type="password" name="password"></td>
 					</tr>
 				</table>
-				<h2><button>ログイン</button></h2>
+				<h2><button type="submit" name="backUrl" value="<%=request.getAttribute("backUrl") %>">ログイン</button></h2>
 				<h2>アカウントをお持ちでない方は<a href="Regist">こちらへ</a>どうぞ</h2>
 			</div>
 		</form>

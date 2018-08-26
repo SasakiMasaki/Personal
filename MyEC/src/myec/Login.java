@@ -34,6 +34,13 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("email", "");
+		String backUrl = (String)request.getAttribute("backUrl");
+		System.out.println(backUrl);
+//		if(backUrl == null) {
+//			backUrl = "NULL";
+//			request.setAttribute("backUrl", backUrl);
+//		}
+//		System.out.println(backUrl);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.LOGIN_PAGE);
 		dispatcher.forward(request, response);
 	}
@@ -42,26 +49,27 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		int userId = 0;
+		int id = 0;
 		String password = (String)request.getParameter("password");
 		String email = (String)request.getParameter("email");
 
 		try {
-			userId = UserDao.findIdByEmail(email, password);
+			id = UserDao.findIdByEmail(email, password);
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
-		if(userId == 0){
+		if(id == 0){
 			String errMsg = "メールアドレスかパスワードが正しくありません";
 			request.setAttribute("errMsg", errMsg);
 			request.setAttribute("email", email);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.LOGIN_PAGE);
 			dispatcher.forward(request, response);
 		}else {
-			session.setAttribute("userId", userId);
-			String backUrl = (String)session.getAttribute("backUrl");
-			if(backUrl != null) {
+			session.setAttribute("id", id);
+			String backUrl = (String)request.getParameter("backUrl");
+			if(!backUrl.equals("null")){
 				response.sendRedirect(backUrl);
 			}else {
 				response.sendRedirect("Top");

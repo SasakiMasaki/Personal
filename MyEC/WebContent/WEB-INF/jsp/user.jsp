@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="beans.UserDataBeans"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +9,13 @@
 	<title>マイページ</title>
 	<%
 		UserDataBeans user = (UserDataBeans)request.getAttribute("user");
+
 	%>
 </head>
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="">
+		<form action="User" method="post">
 			<div class="main-container">
 				<h1>マイページ</h1>
 				<table class="form">
@@ -30,7 +32,7 @@
 						<td><input readonly type="email" name="email" value="<%=user.getEmail()%>"></td>
 					</tr>
 				</table>
-				<h2><a href="updateUser.html">登録情報変更</a></h2>
+				<h2><button type="submit" name="action" value="update">登録情報変更</button></h2>
 				<div class="pad">
 					<h2>購入履歴</h2>
 					<table>

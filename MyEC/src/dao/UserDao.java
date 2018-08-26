@@ -35,14 +35,17 @@ public class UserDao {
 		UserDataBeans udb = new UserDataBeans();
 
 		try {
-			PreparedStatement st = con.prepareStatement("SELCT * FROM user WHERE id = ?");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM user WHERE id = ?");
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
-			udb.setId(id);
-			udb.setName(rs.getString("name"));
-			udb.setAddress(rs.getString("address"));
-			udb.setEmail(rs.getString("email"));
-			udb.setPassword(rs.getString("password"));
+			while(rs.next()) {
+				udb.setId(id);
+				udb.setName(rs.getString("name"));
+				udb.setAddress(rs.getString("address"));
+				udb.setEmail(rs.getString("email"));
+				udb.setPassword(rs.getString("password"));
+			}
+			System.out.println("finding user by id has been completed");
 			return udb;
 		}catch(SQLException e) {
 			e.printStackTrace();

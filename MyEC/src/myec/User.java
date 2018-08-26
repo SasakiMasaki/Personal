@@ -34,19 +34,21 @@ public class User extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		if(session.getAttribute("userId") == null) {
-			session.setAttribute("backUrl", "User");
-			response.sendRedirect("Login");
+		if(session.getAttribute("id") == null) {
+			request.setAttribute("backUrl", "User");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
+			dispatcher.forward(request, response);
+		}else {
+			try {
+				int id = (Integer)session.getAttribute("id");
+				UserDataBeans user = UserDao.findUserById(id);
+				request.setAttribute("user", user);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.USER_PAGE);
+			dispatcher.forward(request, response);
 		}
-
-		try {
-			UserDataBeans user = UserDao.findUserById((int)session.getAttribute("id"));
-			request.setAttribute("user", user);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.USER_PAGE);
-		dispatcher.forward(request, response);
 	}
 
 	/**

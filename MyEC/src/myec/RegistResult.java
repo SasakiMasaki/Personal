@@ -32,9 +32,17 @@ public class RegistResult extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		try {
 			HttpSession session = request.getSession();
-			UserDao.addUser((UserDataBeans)session.getAttribute("udb"));
+			UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
+			if(udb == null) {
+				response.sendRedirect("Regist");
+				return;
+			}
+			UserDao.addUser(udb);
+			request.setAttribute("udb", udb);
+			session.setAttribute("id", UserDao.findIdByEmail(udb.getEmail(), udb.getPassword()));
 			RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_RESULT_PAGE);
 			dispatcher.forward(request, response);
 		}catch(Exception e) {

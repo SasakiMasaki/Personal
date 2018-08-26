@@ -34,12 +34,13 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
 
-		if(Controllor.getSessionAttribute(session, "return") != null) {
-			request.setAttribute("udb", Controllor.getSessionAttribute(session, "udb"));
-		}else{
-			request.setAttribute("udb", new UserDataBeans());
+		if(udb == null) {
+			udb = new UserDataBeans();
 		}
+
+		request.setAttribute("udb", udb);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_PAGE);
 		dispatcher.forward(request, response);
 	}

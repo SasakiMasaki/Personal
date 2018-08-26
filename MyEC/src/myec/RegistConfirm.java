@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.UserDataBeans;
+
 /**
  * Servlet implementation class RegistConfirm
  */
@@ -29,6 +31,13 @@ public class RegistConfirm extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
+		if(udb == null) {
+			response.sendRedirect("Regist");
+			return;
+		}
+		request.setAttribute("udb", udb);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_CONFIRM_PAGE);
 		dispatcher.forward(request, response);
 	}
@@ -37,15 +46,20 @@ public class RegistConfirm extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		String confirm = request.getParameter("confirm");
+		UserDataBeans udb = new UserDataBeans();
+		udb.setName(request.getParameter("name"));
+		udb.setAddress(request.getParameter("address"));
+		udb.setEmail(request.getParameter("email"));
+		udb.setPassword(request.getParameter("password"));
+		session.setAttribute("udb", udb);
 
 		switch(confirm) {
 		case("cancel"):
-			session.setAttribute("return", true);
 			response.sendRedirect("Regist");
 			break;
-
 		case("regist"):
 			response.sendRedirect("RegistResult");
 			break;

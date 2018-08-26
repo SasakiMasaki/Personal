@@ -23,7 +23,7 @@ CREATE TABLE buy(
 	, user_id INT
 	, total_price INT
 	, delivery_method INT
-	, create_date DATETIME
+	, buy_date DATETIME
 );
 
 CREATE TABLE delivery_method(
