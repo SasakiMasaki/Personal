@@ -5,6 +5,9 @@
 	<meta charset="UTF-8">
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>ログイン</title>
+	<%
+		String errMsg = (String)request.getAttribute("errMsg");
+	%>
 </head>
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
@@ -12,14 +15,17 @@
 		<form action="Login" method="post">
 			<div class="main-container">
 				<h1>ログイン</h1>
+				<%if(errMsg != null){%>
+				<h2 class="warning"><%=errMsg%></h2>
+				<%}%>
 				<table class="form">
 					<tr>
 						<th>メールアドレス</th>
-						<td><input type="email" name="email"></td>
+						<td><input type="email" name="email" value="<%=request.getAttribute("email")%>"></td>
 					</tr>
 					<tr>
 						<th>パスワード</th>
-						<td><input type="password" name="pass"></td>
+						<td><input type="password" name="password"></td>
 					</tr>
 				</table>
 				<h2><button>ログイン</button></h2>

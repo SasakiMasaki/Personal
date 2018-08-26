@@ -12,9 +12,12 @@ public class Controllor {
 
 	static final String TOP_PAGE = "/WEB-INF/jsp/top.jsp";
 	static final String LOGIN_PAGE = "/WEB-INF/jsp/login.jsp";
+	static final String LOGOUT_PAGE = "/WEB-INF/jsp/logout.jsp";
 	static final String REGIST_PAGE = "/WEB-INF/jsp/regist.jsp";
 	static final String REGIST_CONFIRM_PAGE = "/WEB-INF/jsp/registconfirm.jsp";
 	static final String REGIST_RESULT_PAGE = "/WEB-INF/jsp/registresult.jsp";
+	static final String USER_PAGE = "/WEB-INF/jsp/user.jsp";
+	static final String CART_PAGE = "/WEB-INF/jsp/cart.jsp";
 
 	public static Object getSessionAttribute(HttpSession session, String str) {
 		Object attribute = session.getAttribute(str);

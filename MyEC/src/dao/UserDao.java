@@ -1,6 +1,5 @@
 package dao;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,27 +10,72 @@ import myec.Controllor;
 
 public class UserDao {
 
-	public static void addUser(UserDataBeans udb) throws SQLException, NoSuchAlgorithmException{
-		Connection con = null;
-		PreparedStatement st = null;
+	public static void addUser(UserDataBeans udb) throws SQLException{
+		Connection con = DBManager.getConnection();
 
 		try {
-			con = DBManager.getConnection();
-			st = con.prepareStatement("INSERT INTO user(name,address,email,password) VALUES(?,?,?,?)");
+			PreparedStatement st = con.prepareStatement("INSERT INTO user(name,address,email,password) VALUES(?,?,?,?)");
 			st.setString(1, udb.getName());
 			st.setString(2, udb.getAddress());
 			st.setString(3, udb.getEmail());
 			st.setString(4, Controllor.hashStr(udb.getPassword()));
 			st.executeUpdate();
 			System.out.println("adding user has succeeded");
-		}catch(SQLException e) {
+		}catch(Exception e) {
 			System.out.println(e.getMessage());
-			throw new SQLException(e);
 		}finally {
 			if(con != null) {
 				con.close();
 			}
 		}
+	}
+
+	public static UserDataBeans findUserById(int id) throws SQLException{
+		Connection con = DBManager.getConnection();
+		UserDataBeans udb = new UserDataBeans();
+
+		try {
+			PreparedStatement st = con.prepareStatement("SELCT * FROM user WHERE id = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			udb.setId(id);
+			udb.setName(rs.getString("name"));
+			udb.setAddress(rs.getString("address"));
+			udb.setEmail(rs.getString("email"));
+			udb.setPassword(rs.getString("password"));
+			return udb;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+	}
+
+	public static int findIdByEmail(String email, String password) throws SQLException{
+		Connection con = DBManager.getConnection();
+		int id = 0;
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT id FROM user WHERE email = ? AND password = ?");
+			st.setString(1, email);
+			st.setString(2, Controllor.hashStr(password));
+			ResultSet rs = st.executeQuery();
+			System.out.println("searching user by email has been completed");
+			if (rs.next()) {
+				id = rs.getInt("id");
+			}
+			return id;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+
 	}
 
 	public static boolean isOverlapEmail(String email) throws SQLException{
