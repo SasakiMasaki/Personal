@@ -37,7 +37,7 @@
 				<h2><button type="submit" name="action" value="update">登録情報変更</button></h2>
 				<div class="pad">
 					<h2>購入履歴</h2>
-					<%if(buyList == null){%>
+					<%if(buyList.isEmpty()){%>
 					<h2>購入履歴はまだありません</h2>
 					<%}else{%>
 					<table>

@@ -19,6 +19,11 @@ public class Controllor {
 	static final String USER_PAGE = "/WEB-INF/jsp/user.jsp";
 	static final String CART_PAGE = "/WEB-INF/jsp/cart.jsp";
 	static final String BUY_DETAIL_PAGE = "/WEB-INF/jsp/buydetail.jsp";
+	static final String CONTROLL_PAGE = "/WEB-INF/jsp/controll.jsp";
+	static final String ITEM_DETAIL_PAGE = "/WEB-INF/jsp/itemdetail.jsp";
+	static final String ITEM_UPDATE_PAGE = "/WEB-INF/jsp/itemupdate.jsp";
+	static final String ITEM_DELETE_PAGE = "/WEB-INF/jsp/itemdelete.jsp";
+	static final String ITEM_REGIST_PAGE = "/WEB-INF/jsp/itemregist.jsp";
 
 	public static Object getSessionAttribute(HttpSession session, String str) {
 		Object attribute = session.getAttribute(str);

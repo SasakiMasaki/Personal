@@ -28,9 +28,11 @@ public class BuyDao {
 				buy.setBuyDate(rs.getDate("buy_date"));
 				buyList.add(buy);
 			}
+			System.out.println("getting buy_list has been completed");
 			return buyList;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("getting buy_list has failed");
 			throw new SQLException();
 		}finally {
 			if(con != null) {

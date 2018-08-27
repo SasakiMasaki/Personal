@@ -34,13 +34,6 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("email", "");
-		String backUrl = (String)request.getAttribute("backUrl");
-		System.out.println(backUrl);
-//		if(backUrl == null) {
-//			backUrl = "NULL";
-//			request.setAttribute("backUrl", backUrl);
-//		}
-//		System.out.println(backUrl);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.LOGIN_PAGE);
 		dispatcher.forward(request, response);
 	}

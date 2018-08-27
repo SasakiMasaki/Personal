@@ -1,20 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<jsp:include page="/baselayout/head.jsp" />
 	<title>商品新規登録</title>
 </head>
 <body>
-	<header>
-		<nav>
-			<a class="logo" href="adminTop.html">MyEC</a>
-			<ul class="f-right inline">
-				<li><a href="top.html">ログアウト</a></li>
-			</ul>
-		</nav>
-	</header>
+	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
 		<form action="adminRegist2.html">
 			<div class="main-container">
@@ -51,8 +44,6 @@
 			</div>
 		</form>
 	</div>
-	<footer>
-		<p>© 2018 Masaki Sasaki</p>
-	</footer>
+	<jsp:include page="/baselayout/footer.jsp"/>
 </body>
 </html>
