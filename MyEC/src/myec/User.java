@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.UserDataBeans;
+import dao.BuyDao;
 import dao.UserDao;
 
 /**
@@ -41,8 +41,8 @@ public class User extends HttpServlet {
 		}else {
 			try {
 				int id = (Integer)session.getAttribute("id");
-				UserDataBeans user = UserDao.findUserById(id);
-				request.setAttribute("user", user);
+				request.setAttribute("user", UserDao.findUserById(id));
+				request.setAttribute("buyList", BuyDao.getBuyDataListByUserId(id));
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -55,8 +55,11 @@ public class User extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String action = request.getParameter("action");
+		if(action.equals("update")) {
+			response.sendRedirect("UpdateUser");
+			return;
+		}
 	}
 
 }

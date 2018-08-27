@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="beans.UserDataBeans"%>
+<%@ page import="beans.BuyDataBeans" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
@@ -9,7 +11,7 @@
 	<title>マイページ</title>
 	<%
 		UserDataBeans user = (UserDataBeans)request.getAttribute("user");
-
+		List<BuyDataBeans> buyList = (ArrayList<BuyDataBeans>)request.getAttribute("buyList");
 	%>
 </head>
 <body>
@@ -35,6 +37,9 @@
 				<h2><button type="submit" name="action" value="update">登録情報変更</button></h2>
 				<div class="pad">
 					<h2>購入履歴</h2>
+					<%if(buyList == null){%>
+					<h2>購入履歴はまだありません</h2>
+					<%}else{%>
 					<table>
 						<thead>
 							<tr>
@@ -44,18 +49,21 @@
 								<td>購入金額</td>
 							</tr>
 						</thead>
+						<%for(BuyDataBeans buy : buyList){%>
 						<tr>
-							<td><a href="history.html">詳細</a></td>
-							<td>00月00日00時00分</td>
-							<td>配送方法例</td>
-							<td>123456789円</td>
+							<td><button type="submit" name="buyId" value=<%=buy.getId()%>>詳細</button></td>
+							<td><%=buy.getBuyDate()%></td>
+							<td><%=buy.getDeliveryMethod()%></td>
+							<td><%=buy.getTotalPrice() %>円</td>
 						</tr>
+						<%}%>
 						<tfoot>
 							<tr>
 								<td></td>
 							</tr>
 						</tfoot>
 					</table>
+					<%}%>
 				</div>
 			</div>
 		</form>

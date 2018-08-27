@@ -18,6 +18,7 @@ public class Controllor {
 	static final String REGIST_RESULT_PAGE = "/WEB-INF/jsp/registresult.jsp";
 	static final String USER_PAGE = "/WEB-INF/jsp/user.jsp";
 	static final String CART_PAGE = "/WEB-INF/jsp/cart.jsp";
+	static final String BUY_DETAIL_PAGE = "/WEB-INF/jsp/buydetail.jsp";
 
 	public static Object getSessionAttribute(HttpSession session, String str) {
 		Object attribute = session.getAttribute(str);
