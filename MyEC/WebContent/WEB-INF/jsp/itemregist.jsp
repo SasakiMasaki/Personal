@@ -9,12 +9,12 @@
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="adminRegist2.html">
+		<form action="ItemRegist" method="post">
 			<div class="main-container">
 				<h2>商品新規登録</h2>
 				<div class="flex">
 					<div class="product">
-						<img alt="サンプル商品の画像" src="img/f_f_business_38_s512_f_business_38_1bg.png">
+						<img alt="サンプル商品の画像" src="/img/f_f_business_38_s512_f_business_38_1bg.png">
 						<table>
 							<tr>
 								<th>画像</th>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="pad">
 					<ul class="inline">
-						<li><a href="adminTop.html">戻る</a></li>
+						<li><a href="Controll">戻る</a></li>
 						<li><button>登録</button></li>
 					</ul>
 				</div>
