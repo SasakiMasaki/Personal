@@ -11,6 +11,90 @@ import beans.ItemDataBeans;
 
 public class ItemDao {
 
+	public static int getLastId() throws SQLException{
+		Connection con = DBManager.getConnection();
+		int id = 0;
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT MAX(id) FROM item");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				if(rs.next()) {
+					return id;
+				}
+				id = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+		return id;
+	}
+
+	public static void updateItem(ItemDataBeans idb) throws SQLException{
+		Connection con = DBManager.getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement("UPDATE item SET name = ?, detail = ?, price = ?, file_name = ? WEHRE id = ?");
+			st.setString(1, idb.getName());
+			st.setString(2, idb.getDetail());
+			st.setInt(3, idb.getPrice());
+			st.setString(4, idb.getFileName());
+			st.setInt(5, idb.getId());
+			st.executeUpdate();
+			System.out.println("updating item has been completed");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+	}
+	public static void addItem(ItemDataBeans idb) throws SQLException{
+		Connection con = DBManager.getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement("INSERT INTO item(name,detail,price,file_name) VALUES(?,?,?,?)");
+			st.setString(1, idb.getName());
+			st.setString(2, idb.getDetail());
+			st.setInt(3, idb.getPrice());
+			st.setString(4, idb.getFileName());
+			st.executeUpdate();
+			System.out.println("adding item has been completed");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+	}
+
+	public static boolean isOverlapName(String name) throws SQLException{
+		Connection con = DBManager.getConnection();
+		boolean isOverlap = false;
+
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT name FROM item WHERE name = ?");
+			st.setString(1, name);
+			ResultSet rs = st.executeQuery();
+			System.out.println("searching item_name has been completed");
+
+			if(rs.next()) {
+				isOverlap = true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
+		}
+		System.out.println("overlap check has been completed");
+		return isOverlap;
+	}
+
 	public static ItemDataBeans getItemById(int i) throws SQLException{
 		ItemDataBeans idb = new ItemDataBeans();
 		Connection con = DBManager.getConnection();
@@ -20,10 +104,10 @@ public class ItemDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				idb.setId(rs.getInt("id"));
-				idb.setName(rs.getString("id"));
-				idb.setDetail(rs.getString("id"));
-				idb.setPrice(rs.getInt("id"));
-				idb.setFileName(rs.getString("id"));
+				idb.setName(rs.getString("name"));
+				idb.setDetail(rs.getString("detail"));
+				idb.setPrice(rs.getInt("price"));
+				idb.setFileName(rs.getString("file_name"));
 			}
 			System.out.println("getting item_list has been completed");
 			return idb;
@@ -42,10 +126,10 @@ public class ItemDao {
 			while(rs.next()) {
 				ItemDataBeans idb = new ItemDataBeans();
 				idb.setId(rs.getInt("id"));
-				idb.setName(rs.getString("id"));
-				idb.setDetail(rs.getString("id"));
-				idb.setPrice(rs.getInt("id"));
-				idb.setFileName(rs.getString("id"));
+				idb.setName(rs.getString("name"));
+				idb.setDetail(rs.getString("detail"));
+				idb.setPrice(rs.getInt("price"));
+				idb.setFileName(rs.getString("file_name"));
 				itemList.add(idb);
 			}
 			System.out.println("getting item_list has been completed");
@@ -66,10 +150,10 @@ public class ItemDao {
 			while(rs.next()) {
 				ItemDataBeans idb = new ItemDataBeans();
 				idb.setId(rs.getInt("id"));
-				idb.setName(rs.getString("id"));
-				idb.setDetail(rs.getString("id"));
-				idb.setPrice(rs.getInt("id"));
-				idb.setFileName(rs.getString("id"));
+				idb.setName(rs.getString("name"));
+				idb.setDetail(rs.getString("detail"));
+				idb.setPrice(rs.getInt("price"));
+				idb.setFileName(rs.getString("file_name"));
 				itemList.add(idb);
 			}
 			System.out.println("getting item_list has been completed");

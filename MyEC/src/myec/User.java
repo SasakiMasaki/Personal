@@ -38,17 +38,20 @@ public class User extends HttpServlet {
 			request.setAttribute("backUrl", "User");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
 			dispatcher.forward(request, response);
-		}else {
-			try {
-				int id = (Integer)session.getAttribute("id");
-				request.setAttribute("user", UserDao.findUserById(id));
-				request.setAttribute("buyList", BuyDao.getBuyDataListByUserId(id));
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.USER_PAGE);
-			dispatcher.forward(request, response);
+			return;
 		}
+
+		try {
+			int id = (Integer)session.getAttribute("id");
+			request.setAttribute("user", UserDao.findUserById(id));
+			request.setAttribute("buyList", BuyDao.getBuyDataListByUserId(id));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.USER_PAGE);
+		dispatcher.forward(request, response);
+		return;
+
 	}
 
 	/**

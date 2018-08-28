@@ -158,6 +158,7 @@ tfoot{
 }
 .product input{
 	width:100%;
+	border:thin inset;
 }
 .product img{
 	width:100%;

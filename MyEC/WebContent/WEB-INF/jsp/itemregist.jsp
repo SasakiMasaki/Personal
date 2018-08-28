@@ -9,30 +9,36 @@
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="ItemRegist" method="post">
+		<form action="ItemRegist" enctype="multipart/form-data" method="post">
 			<div class="main-container">
 				<h2>商品新規登録</h2>
+				<h2><%=request.getAttribute("test")%></h2>
+				<h2><img alt="サンプル商品の画像" src="<%=request.getAttribute("test")%>"></h2>
 				<div class="flex">
 					<div class="product">
-						<img alt="サンプル商品の画像" src="/img/f_f_business_38_s512_f_business_38_1bg.png">
+						<img alt="サンプル商品の画像" src="img/sample.png">
 						<table>
+							<tr>
+								<th>商品名</th>
+								<td><input type="text" name="name"></td>
+							</tr>
+							<tr>
+								<th>単価</th>
+								<td><input type="number" name="price" min="1" max="999999999">円</td>
+							</tr>
 							<tr>
 								<th>画像</th>
 								<td>
 									<label for="file_upload">
 										ファイルを選択
-										<input type="file" id="file_upload">
+										<input type="file" name="file" id="file_upload" value="test">
 									</label>
 								</td>
-							</tr>
-							<tr>
-								<th>単価</th>
-								<td><input type="number" name="number" min="1" max="999999999">円</td>
 							</tr>
 						</table>
 					</div>
 					<div class="text">
-						<textarea rows="20" cols="40"></textarea>
+						<textarea name="detail" rows="20" cols="40"></textarea>
 					</div>
 				</div>
 				<div class="pad">
