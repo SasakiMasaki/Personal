@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import beans.ItemDataBeans;
+import dao.FileDao;
 import dao.ItemDao;
 
 /**
@@ -60,18 +61,11 @@ public class ItemRegist extends HttpServlet {
 
 		try {
 			String filename = "sample.png";
-			int id = ItemDao.getLastId() + 1;
+			int itemId = ItemDao.getLastId() + 1;
 			Part part = request.getPart("file");
 
 			if (getFileName(part).indexOf(".") != -1) {
-				filename = "item_image_" + id + getFileName(part).substring(getFileName(part).indexOf("."));
-			}
-
-			if(ItemDao.isOverlapName(request.getParameter("name"))) {
-				String errMsg = "その商品名は既に登録されています。";
-				request.setAttribute("errMsg", errMsg);
-				request.getRequestDispatcher(Controllor.ITEM_REGIST_PAGE).forward(request, response);
-				return;
+				filename = "image_" + itemId + getFileName(part).substring(getFileName(part).indexOf("."));
 			}
 
 			ItemDataBeans item = new ItemDataBeans();
@@ -80,10 +74,10 @@ public class ItemRegist extends HttpServlet {
 			item.setPrice(new Integer(request.getParameter("price")));
 			item.setFileName(filename);
 			ItemDao.addItem(item);
-			part.write(filename);
-			session.setAttribute("id", id);
-			session.setAttribute("redirectmassage", "商品の登録に成功しました");
-			response.sendRedirect("ItemDetail");
+			part.write(FileDao.getLocation("img") + filename);
+			session.setAttribute("item_id", itemId);
+			session.setAttribute("redirectMsg", "商品情報を登録しました");
+			response.sendRedirect("ItemUpdate");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

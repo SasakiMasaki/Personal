@@ -9,7 +9,7 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>商品管理画面</title>
 	<%
-		List<ItemDataBeans> itemList = new ArrayList<ItemDataBeans>();
+		List<ItemDataBeans> itemList = (ArrayList<ItemDataBeans>)request.getAttribute("itemList");
 	%>
 </head>
 <body>

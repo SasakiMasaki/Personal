@@ -36,7 +36,7 @@ public class ItemDao {
 	public static void updateItem(ItemDataBeans idb) throws SQLException{
 		Connection con = DBManager.getConnection();
 		try {
-			PreparedStatement st = con.prepareStatement("UPDATE item SET name = ?, detail = ?, price = ?, file_name = ? WEHRE id = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE item SET name = ?, detail = ?, price = ?, file_name = ? WHERE id = ?");
 			st.setString(1, idb.getName());
 			st.setString(2, idb.getDetail());
 			st.setInt(3, idb.getPrice());

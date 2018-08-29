@@ -63,13 +63,9 @@ public class Controll extends HttpServlet {
 		}
 
 		if(id != 0) {
-			try {
-				session.setAttribute("item",ItemDao.getItemById(id));
-				response.sendRedirect(redirect);
-				return;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			session.setAttribute("item_id", id);
+			response.sendRedirect(redirect);
+			return;
 		}
 
 		switch(request.getParameter("action")) {
