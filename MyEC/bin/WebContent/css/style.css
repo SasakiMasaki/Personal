@@ -1,0 +1,181 @@
+@charset "UTF-8";
+*{
+box-sizing:border-box;
+}
+.container{
+	width:inherit;
+	height:inherit;
+	background-color:#ffffff;
+	flex-grow:1;
+}
+body{
+	width:1000px;
+	min-height:100%;
+	display:flex;
+	flex-direction:column;
+	line-height:1.5;
+	margin:auto;
+	text-align:center;
+}
+html{
+	height:100%;
+	background-color:#f5f5f5;
+}
+header,footer{
+	width:inherit;
+	background-color:#fff0e0;
+}
+h1{
+	font-size:250%;
+	padding:30px 0px;
+}
+h2{
+	padding:20px 0px;
+}
+.pad{
+	padding:20px 0px;
+}
+td{
+	white-space:nowrap;
+}
+.result,.result td{
+	table-layout:fixed;
+	border:1px solid;
+}
+.result tr{
+	width:100%;
+}
+.result td:nth-child(2){
+}
+.result td:nth-child(1){
+	width:650px;
+	white-space:nowrap;
+}
+.result thead,.result tbody{
+	display:block;
+}
+.result tbody{
+	height:300px;
+	overflow-x:hidden;
+	overflow-y:scroll;
+}
+.inline *{
+	display:inline;
+}
+.f-left{
+	float:left;
+}
+.f-right{
+	float:right;
+}
+.logo{
+	font-size:200%;
+}
+a{
+	font-weight:bolder;
+	text-decoration:none;
+	color:inherit;
+}
+a:hover,button:hover,label:hover{
+	opacity:0.5;
+}
+input,button,label{
+	margin:0px;
+	padding:0px;
+	font-weight:bolder;
+	outline:none;
+	background-color:inherit;
+	height:1.5rem;
+	font-size:1rem;
+	border-color:#000000;
+	border-style:none;
+	vertical-align:baseline;
+}
+input[type="number"],textarea{
+	border:thin inset;
+}
+textarea{
+	text-align:justify;
+}
+label>input[type="file"]{
+	display:none;
+}
+table{
+	width:100%;
+	background-color:inherit;
+	margin:auto;
+}
+th{
+	width:30%;
+}
+thead{
+	border:2px;
+	border-color:#000000;
+	border-style:none none solid;
+}
+tfoot{
+	border:4px;
+	border-color:#000000;
+	border-style:double none none;
+}
+.main-container{
+	width:80%;
+	margin:auto;
+}
+.grid{
+	display:flex;
+	flex-flow: row wrap;
+	justify-content:center;
+}
+.content{
+	width:20%;
+	padding:10px;
+}
+.content *{
+	font-weight:normal;
+}
+.content img{
+	width:100%;
+	height:auto;
+}
+.form input,.form button{
+	border-color:#000000;
+	border-style:none none solid;
+}
+.form input{
+	font-weight:normal;
+	width:15rem;
+	vertical-align:top;
+}
+.form td,.form th{
+	height:3rem;
+}
+.product{
+	width:50%;
+}
+.product table{
+	width:15rem;
+}
+.product input{
+	width:100%;
+	border:thin inset;
+}
+.product img{
+	width:100%;
+	height:auto;
+}
+.text{
+	text-align:justify;
+	width:50%;
+	padding:0rem 1rem;
+}
+.flex{
+	display:flex;
+}
+.warning{
+	color:#F44336 !important;
+	font-weight:bolder;
+}
+#sample{
+	height:300px;
+}
