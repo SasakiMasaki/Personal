@@ -14,20 +14,21 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import beans.ItemDataBeans;
+import dao.FileDao;
 import dao.ItemDao;
 
 /**
- * Servlet implementation class ItemRegist
+ * Servlet implementation class ItemUpdate
  */
-@WebServlet("/ItemRegist")
-@MultipartConfig(location="C:\\Users\\likeit_student\\Documents\\Personal\\MyEC\\WebContent\\img")
-public class ItemRegist extends HttpServlet {
+@WebServlet("/ItemUpdate")
+@MultipartConfig
+public class ItemUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemRegist() {
+    public ItemUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,6 +38,12 @@ public class ItemRegist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
+		int itemId = 0;
+		Integer i = (Integer) Controllor.getSessionAttribute(session, "item_id");
+		if(i != null) {
+			itemId = i;
+		}
 
 		if(session.getAttribute("id") == null) {
 			request.setAttribute("backUrl", "ItemRegist");
@@ -48,7 +55,12 @@ public class ItemRegist extends HttpServlet {
 			return;
 		}
 
-		request.getRequestDispatcher(Controllor.ITEM_REGIST_PAGE).forward(request, response);
+		try {
+			request.setAttribute("item", ItemDao.getItemById(itemId));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		request.getRequestDispatcher(Controllor.ITEM_UPDATE_PAGE).forward(request, response);
 	}
 
 	/**
@@ -59,36 +71,28 @@ public class ItemRegist extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		try {
-			String filename = "sample.png";
-			int id = ItemDao.getLastId() + 1;
-			Part part = request.getPart("file");
-
-			if (getFileName(part).indexOf(".") != -1) {
-				filename = "item_image_" + id + getFileName(part).substring(getFileName(part).indexOf("."));
-			}
-
-			if(ItemDao.isOverlapName(request.getParameter("name"))) {
-				String errMsg = "その商品名は既に登録されています。";
-				request.setAttribute("errMsg", errMsg);
-				request.getRequestDispatcher(Controllor.ITEM_REGIST_PAGE).forward(request, response);
-				return;
-			}
-
 			ItemDataBeans item = new ItemDataBeans();
 			item.setName(request.getParameter("name"));
 			item.setDetail(request.getParameter("detail"));
-			item.setPrice(new Integer(request.getParameter("price")));
-			item.setFileName(filename);
-			ItemDao.addItem(item);
-			part.write(filename);
-			session.setAttribute("id", id);
-			session.setAttribute("redirectmassage", "商品の登録に成功しました");
-			response.sendRedirect("ItemDetail");
+			item.setPrice(Integer.parseInt(request.getParameter("price")));
+			item.setId(Integer.parseInt(request.getParameter("item_id")));
+			item.setFileName("sample.png");
+			Part part = request.getPart("file");
+
+			if (getFileName(part).indexOf(".") != -1) {
+				item.setFileName(("image_" + item.getId() + getFileName(part).substring(getFileName(part).indexOf("."))));
+			}
+
+
+			part.write(FileDao.getLocation("img") + item.getFileName());
+			ItemDao.updateItem(item);
+			session.setAttribute("item_id", item.getId());
+			session.setAttribute("redirectMsg", "商品情報を更新しました");
+			response.sendRedirect("ItemUpdate");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	private String getFileName(Part part) {
 		for(String cd : part.getHeader("Content-Disposition").split(";")) {
@@ -98,4 +102,5 @@ public class ItemRegist extends HttpServlet {
 		}
 		return null;
 	}
+
 }

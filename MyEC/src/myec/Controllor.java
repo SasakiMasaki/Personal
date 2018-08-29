@@ -24,6 +24,7 @@ public class Controllor {
 	static final String ITEM_UPDATE_PAGE = "/WEB-INF/jsp/itemupdate.jsp";
 	static final String ITEM_DELETE_PAGE = "/WEB-INF/jsp/itemdelete.jsp";
 	static final String ITEM_REGIST_PAGE = "/WEB-INF/jsp/itemregist.jsp";
+	static final String ITEM_REGIST_CONFIRM_PAGE = "/WEB-INF/jsp/itemregist.jsp";
 
 	public static Object getSessionAttribute(HttpSession session, String str) {
 		Object attribute = session.getAttribute(str);

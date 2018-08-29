@@ -20,11 +20,11 @@
 						<table>
 							<tr>
 								<th>商品名</th>
-								<td><input type="text" name="name"></td>
+								<td><input required type="text" name="name"></td>
 							</tr>
 							<tr>
 								<th>単価</th>
-								<td><input type="number" name="price" min="1" max="999999999">円</td>
+								<td><input required type="number" name="price" min="1" max="999999999">円</td>
 							</tr>
 							<tr>
 								<th>画像</th>
