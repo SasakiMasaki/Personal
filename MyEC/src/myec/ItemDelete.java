@@ -14,16 +14,16 @@ import javax.servlet.http.HttpSession;
 import dao.ItemDao;
 
 /**
- * Servlet implementation class ItemDetail
+ * Servlet implementation class ItemDelete
  */
-@WebServlet("/ItemDetail")
-public class ItemDetail extends HttpServlet {
+@WebServlet("/ItemDelete")
+public class ItemDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemDetail() {
+    public ItemDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +34,6 @@ public class ItemDetail extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Integer itemId = (Integer) Controllor.getSessionAttribute(session, "item_id");
-		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
 
 		if(session.getAttribute("id") == null) {
 			request.setAttribute("backUrl", "Controll");
@@ -56,7 +55,7 @@ public class ItemDetail extends HttpServlet {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher(Controllor.ITEM_DETAIL_PAGE).forward(request, response);
+		request.getRequestDispatcher(Controllor.ITEM_DELETE_PAGE).forward(request, response);
 	}
 
 	/**
@@ -67,17 +66,21 @@ public class ItemDetail extends HttpServlet {
 		int itemId = Integer.parseInt(request.getParameter("item_id"));
 
 		switch(request.getParameter("action")) {
+		case("detail"):
+			session.setAttribute("item_id", itemId);
+			response.sendRedirect("ItemDetail");
+			return;
 		case("update"):
 			session.setAttribute("item_id", itemId);
 			response.sendRedirect("ItemUpdate");
 			return;
 		case("delete"):
-			session.setAttribute("item_id", itemId);
+			try {
+				ItemDao.deleteItem(itemId);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			response.sendRedirect("ItemDelete");
-			return;
-		case("cart"):
-			session.setAttribute("item_id", itemId);
-			response.sendRedirect("ItemDetail");
 			return;
 		case("return"):
 			response.sendRedirect("Controll");

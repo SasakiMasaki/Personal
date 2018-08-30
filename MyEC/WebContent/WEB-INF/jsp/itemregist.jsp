@@ -12,8 +12,6 @@
 		<form action="ItemRegist" enctype="multipart/form-data" method="post">
 			<div class="main-container">
 				<h2>商品新規登録</h2>
-				<h2><%=request.getAttribute("test")%></h2>
-				<h2><img alt="サンプル商品の画像" src="<%=request.getAttribute("test")%>"></h2>
 				<div class="flex">
 					<div class="product">
 						<img alt="サンプル商品の画像" src="img/sample.png">

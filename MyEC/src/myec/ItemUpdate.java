@@ -38,15 +38,11 @@ public class ItemUpdate extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Integer itemId = (Integer) Controllor.getSessionAttribute(session, "item_id");
 		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
-		int itemId = 0;
-		Integer i = (Integer) Controllor.getSessionAttribute(session, "item_id");
-		if(i != null) {
-			itemId = i;
-		}
 
 		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "ItemRegist");
+			request.setAttribute("backUrl", "Controll");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
 			dispatcher.forward(request, response);
 			return;
@@ -55,8 +51,13 @@ public class ItemUpdate extends HttpServlet {
 			return;
 		}
 
+		if(itemId == null) {
+			response.sendRedirect("Controll");
+			return;
+		}
+
 		try {
-			request.setAttribute("item", ItemDao.getItemById(itemId));
+			request.setAttribute("item", ItemDao.getItemById((int)itemId));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -69,28 +70,40 @@ public class ItemUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
+		int itemId = Integer.parseInt(request.getParameter("item_id"));
 
-		try {
-			ItemDataBeans item = new ItemDataBeans();
-			item.setName(request.getParameter("name"));
-			item.setDetail(request.getParameter("detail"));
-			item.setPrice(Integer.parseInt(request.getParameter("price")));
-			item.setId(Integer.parseInt(request.getParameter("item_id")));
-			item.setFileName("sample.png");
-			Part part = request.getPart("file");
+		switch(request.getParameter("action")) {
+		case("update"):
+			try {
+				ItemDataBeans item = new ItemDataBeans();
+				item.setName(request.getParameter("name"));
+				item.setDetail(request.getParameter("detail"));
+				item.setPrice(Integer.parseInt(request.getParameter("price")));
+				item.setId(itemId);
+				item.setFileName("sample.png");
+				Part part = request.getPart("file");
 
-			if (getFileName(part).indexOf(".") != -1) {
-				item.setFileName(("image_" + item.getId() + getFileName(part).substring(getFileName(part).indexOf("."))));
+				if (getFileName(part).indexOf(".") != -1) {
+					item.setFileName(("image_" + item.getId() + getFileName(part).substring(getFileName(part).indexOf("."))));
+				}
+
+
+				part.write(FileDao.getLocation("img") + item.getFileName());
+				ItemDao.updateItem(item);
+				session.setAttribute("item_id", itemId);
+				session.setAttribute("redirectMsg", "商品情報を更新しました");
+				response.sendRedirect("ItemUpdate");
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-
-
-			part.write(FileDao.getLocation("img") + item.getFileName());
-			ItemDao.updateItem(item);
-			session.setAttribute("item_id", item.getId());
-			session.setAttribute("redirectMsg", "商品情報を更新しました");
-			response.sendRedirect("ItemUpdate");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return;
+		case("delete"):
+			session.setAttribute("item_id", itemId);
+			response.sendRedirect("ItemDelete");
+			return;
+		case("return"):
+			response.sendRedirect("Controll");
+		return;
 		}
 	}
 

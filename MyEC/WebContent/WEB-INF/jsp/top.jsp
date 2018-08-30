@@ -9,12 +9,12 @@
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="result.html">
+		<form action="Top" method="post">
 			<div class="main-container">
 				<h1>MyEC</h1>
 				<h2>～お探しのもの見つかります～</h2>
 				<div class="form inline">
-					<input type="text"><button>検索</button>
+					<input type="text" name="keyword"><button>検索</button>
 				</div>
 			</div>
 		</form>

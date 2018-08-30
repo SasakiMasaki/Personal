@@ -21,7 +21,7 @@ import dao.ItemDao;
  * Servlet implementation class ItemRegist
  */
 @WebServlet("/ItemRegist")
-@MultipartConfig(location="C:\\Users\\likeit_student\\Documents\\Personal\\MyEC\\WebContent\\img")
+@MultipartConfig
 public class ItemRegist extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

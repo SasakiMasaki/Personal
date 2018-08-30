@@ -18,10 +18,8 @@ public class ItemDao {
 			PreparedStatement st = con.prepareStatement("SELECT MAX(id) FROM item");
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
-				if(rs.next()) {
-					return id;
-				}
-				id = rs.getInt("id");
+				id = rs.getInt("MAX(id)");
+				System.out.println("last_id has been found, id : " + id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,6 +64,23 @@ public class ItemDao {
 			e.printStackTrace();
 		}finally {
 			if(con != null) {
+				con.close();
+			}
+		}
+	}
+
+	public static void deleteItem(int itemId) throws SQLException{
+		Connection con = DBManager.getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement("DELETE FROM item WHERE id = ?");
+			st.setInt(1, itemId);
+			st.executeUpdate();
+			System.out.println("item has been deleted");
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
 				con.close();
 			}
 		}

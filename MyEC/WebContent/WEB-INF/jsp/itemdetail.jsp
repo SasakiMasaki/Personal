@@ -5,55 +5,49 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/baselayout/head.jsp" />
-	<title>商品情報更新画面</title>
+	<title>商品詳細情報画面</title>
 	<%
+		int id = (Integer)session.getAttribute("id");
 		ItemDataBeans item = (ItemDataBeans)request.getAttribute("item");
-		String redirectMsg = (String)request.getAttribute("redirectMsg");
 	%>
 </head>
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="ItemUpdate" enctype="multipart/form-data" method="post">
+		<form action="ItemDetail" method="post">
 			<div class="main-container">
-				<%if(redirectMsg != null){%>
-				<h2><%=request.getAttribute("redirectMsg")%></h2>
-				<%}%>
-				<h2>「<%=item.getName()%>」の更新ページ</h2>
+				<h2>「<%=item.getName()%>」の詳細ページ</h2>
 				<div class="flex">
 					<div class="product">
 						<img alt="<%=item.getFileName()%>" src="<%="img/"+item.getFileName()%>">
 						<table>
 							<tr>
-								<th>画像</th>
-								<td>
-									<label for="file_upload">
-										ファイルを選択
-										<input type="file" name="file" id="file_upload">
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<th>商品名</th>
-								<td><input required type="text" name="name" value="<%=item.getName()%>"></td>
-							</tr>
-							<tr>
 								<th>単価</th>
-								<td><input required type="number" name="price" value="<%=item.getPrice()%>" min="1" max="999999999">円</td>
+								<td><%=item.getPrice()%>円</td>
 							</tr>
+						<%if(id != 1){%>
+							<tr>
+								<th>個数</th>
+								<td><input type="number" name="number" value="1" min="1" max="99"></td>
+							</tr>
+						<%}%>
 						</table>
+						<%if(id == 1){%>
 						<ul class="inline">
 							<li><button type="submit" name="action" value="update">更新</button></li>
 							<li><button type="submit" name="action" value="delete">削除</button></li>
-							<li><input type="hidden" name="item_id" value=<%=item.getId()%>></li>
 						</ul>
+						<%}else{%>
+						<button type="submit" name="action" value="cart">カートへ入れる</button>
+						<%}%>
 					</div>
 					<div class="text">
-						<textarea name="detail" rows="20" cols="40"><%=item.getDetail()%></textarea>
+						<%=item.getDetail()%>
 					</div>
 				</div>
 				<h2>
 					<button type="submit" name="action" value="return">戻る</button>
+					<input type="hidden" name="item_id" value=<%=item.getId()%>>
 				</h2>
 			</div>
 		</form>
