@@ -33,7 +33,7 @@ public class ItemDetail extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer itemId = (Integer) Controllor.getSessionAttribute(session, "item_id");
+		int itemId = Integer.parseInt((String)Controllor.getSessionAttribute(session, "item_id"));
 		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
 
 		if(session.getAttribute("id") == null) {
@@ -46,7 +46,7 @@ public class ItemDetail extends HttpServlet {
 			return;
 		}
 
-		if(itemId == null) {
+		if(itemId == 0) {
 			response.sendRedirect("Controll");
 			return;
 		}

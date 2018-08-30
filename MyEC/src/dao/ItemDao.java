@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.ItemDataBeans;
+import beans.SearchIndexBeans;
 
 public class ItemDao {
 
@@ -27,7 +28,7 @@ public class ItemDao {
 		return resultNum;
 	}
 
-	public static List<ItemDataBeans> getItemListResultByKeyword(String keyword, int index, int displayNum) throws SQLException{
+	public static List<ItemDataBeans> getItemListResultByKeyword(SearchIndexBeans sib) throws SQLException{
 		List<ItemDataBeans> itemList = new ArrayList<ItemDataBeans>();
 		Connection con = DBManager.getConnection();
 		try {
@@ -35,9 +36,9 @@ public class ItemDao {
 					"SELECT *"
 					+ " FROM (SELECT @i := @i + 1 AS row, result.* FROM (SELECT @i := 0) AS dummy, (SELECT * FROM item WHERE name LIKE ? ORDER BY name)result)part"
 					+ " WHERE row BETWEEN ? AND ?");
-			st.setString(1, "%" + keyword + "%");
-			st.setInt(2, (index - 1) * displayNum + 1);
-			st.setInt(3, index * displayNum);
+			st.setString(1, "%" + sib.getKeyword() + "%");
+			st.setInt(2, (sib.getIndex() - 1) * sib.getDisplayNum() + 1);
+			st.setInt(3, sib.getIndex() * sib.getDisplayNum());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				ItemDataBeans idb = new ItemDataBeans();

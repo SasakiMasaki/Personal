@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.SearchIndexBeans;
 import dao.ItemDao;
 
 /**
@@ -33,14 +34,23 @@ public class SearchResult extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String keyword = (String)Controllor.getSessionAttribute(session, "keyword");
-		int displayNum = 10;
-		int resultNum = ItemDao.getNumberOfResult(keyword);
-		int pageNum = resultNum / displayNum;
+		SearchIndexBeans indexs = new SearchIndexBeans();
+
+		if(keyword == null) {
+			request.setAttribute("indexs", indexs);
+			request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
+			return;
+		}
+
+		indexs.setKeyword(keyword);
+		indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
+
 		try {
-			request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(keyword, 1, displayNum));
+			request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(indexs));
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+		request.setAttribute("indexs", indexs);
 		request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
 	}
 
@@ -48,8 +58,32 @@ public class SearchResult extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 
+		if(request.getParameter("search") != null){
+			session.setAttribute("keyword", request.getParameter("search"));
+			response.sendRedirect("SearchResult");
+			return;
+		}
+
+		if(request.getParameter("detail") != null) {
+			session.setAttribute("item_id", request.getParameter("detail"));
+			response.sendRedirect("ItemDetail");
+			return;
+		}
+
+		SearchIndexBeans indexs = new SearchIndexBeans();
+		indexs.setKeyword((String)request.getParameter("keyword"));
+		indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
+		indexs.setIndex(new Integer(request.getParameter("index")));
+
+		try {
+			request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(indexs));
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		request.setAttribute("indexs", indexs);
+		request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
+	}
 }

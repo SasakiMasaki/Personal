@@ -76,7 +76,7 @@ a{
 	text-decoration:none;
 	color:inherit;
 }
-a:hover,button:hover,label:hover{
+a:hover,button:hover,label:hover, .disabled{
 	opacity:0.5;
 }
 input,button,label{
@@ -97,7 +97,7 @@ input[type="number"],textarea{
 textarea{
 	text-align:justify;
 }
-label>input[type="file"]{
+label>input{
 	display:none;
 }
 table{
