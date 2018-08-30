@@ -11,6 +11,7 @@ import javax.xml.bind.DatatypeConverter;
 public class Controllor {
 
 	static final String TOP_PAGE = "/WEB-INF/jsp/top.jsp";
+	static final String SEARCH_RESULT_PAGE = "/WEB-INF/jsp/searchresult.jsp";
 	static final String LOGIN_PAGE = "/WEB-INF/jsp/login.jsp";
 	static final String LOGOUT_PAGE = "/WEB-INF/jsp/logout.jsp";
 	static final String REGIST_PAGE = "/WEB-INF/jsp/regist.jsp";

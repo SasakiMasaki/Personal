@@ -11,6 +11,50 @@ import beans.ItemDataBeans;
 
 public class ItemDao {
 
+	public static int getNumberOfResult(String keyword) {
+		Connection con = DBManager.getConnection();
+		int resultNum = 0;
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT id FROM item WHERE name LIKE ?");
+			st.setString(1,"%" + keyword + "%");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				resultNum++;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return resultNum;
+	}
+
+	public static List<ItemDataBeans> getItemListResultByKeyword(String keyword, int index, int displayNum) throws SQLException{
+		List<ItemDataBeans> itemList = new ArrayList<ItemDataBeans>();
+		Connection con = DBManager.getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement(
+					"SELECT *"
+					+ " FROM (SELECT @i := @i + 1 AS row, result.* FROM (SELECT @i := 0) AS dummy, (SELECT * FROM item WHERE name LIKE ? ORDER BY name)result)part"
+					+ " WHERE row BETWEEN ? AND ?");
+			st.setString(1, "%" + keyword + "%");
+			st.setInt(2, (index - 1) * displayNum + 1);
+			st.setInt(3, index * displayNum);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				ItemDataBeans idb = new ItemDataBeans();
+				idb.setId(rs.getInt("id"));
+				idb.setName(rs.getString("name"));
+				idb.setDetail(rs.getString("detail"));
+				idb.setPrice(rs.getInt("price"));
+				idb.setFileName(rs.getString("file_name"));
+				itemList.add(idb);
+			}
+			System.out.println("getting item_list has been completed");
+			return itemList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException();
+		}
+	}
 	public static int getLastId() throws SQLException{
 		Connection con = DBManager.getConnection();
 		int id = 0;
@@ -21,6 +65,9 @@ public class ItemDao {
 				id = rs.getInt("MAX(id)");
 				System.out.println("last_id has been found, id : " + id);
 			}
+			st = con.prepareStatement("ALTER TABLE item AUTO_INCREMENT = ?");
+			st.setInt(1, id + 1);
+			st.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
