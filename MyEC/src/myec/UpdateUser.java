@@ -15,16 +15,16 @@ import beans.UserDataBeans;
 import dao.UserDao;
 
 /**
- * Servlet implementation class Regist
+ * Servlet implementation class UpdateUser
  */
-@WebServlet("/Regist")
-public class Regist extends HttpServlet {
+@WebServlet("/UpdateUser")
+public class UpdateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Regist() {
+    public UpdateUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,15 +34,31 @@ public class Regist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		String redirectMsg = (String)Controllor.getSessionAttribute(session, "redirectMsg");
 		UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
 
-		if(udb == null) {
-			udb = new UserDataBeans();
+		if(session.getAttribute("id") == null) {
+			request.setAttribute("backUrl", "UpdateUser");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
+			dispatcher.forward(request, response);
+			return;
 		}
 
-		request.setAttribute("udb", udb);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_PAGE);
-		dispatcher.forward(request, response);
+		if(redirectMsg != null) {
+			request.setAttribute("redirectMsg", redirectMsg);
+		}
+
+		if(udb != null) {
+			request.setAttribute("udb", udb);
+		}else {
+			try {
+				request.setAttribute("udb", UserDao.findUserById((int)session.getAttribute("id")));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		request.getRequestDispatcher(Controllor.UPDATE_USER_PAGE).forward(request, response);
 	}
 
 	/**
@@ -53,29 +69,33 @@ public class Regist extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		try {
-			UserDataBeans udb = new UserDataBeans();
+			UserDataBeans udb = UserDao.findUserById((int) session.getAttribute("id"));
 			udb.setName(request.getParameter("name"));
 			udb.setAddress(request.getParameter("address"));
-			udb.setEmail(request.getParameter("email"));
-			udb.setPassword(request.getParameter("password"));
-			String confirmPassword = request.getParameter("confirm_password");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password")!=null?request.getParameter("password"):"";
+			String confirmPassword = request.getParameter("confirm_password")!=null?request.getParameter("confirm_password"):"";
 			String errMsg = "";
 
-			if(!udb.getPassword().equals(confirmPassword)){
+			if(!password.equals(confirmPassword)){
 				errMsg = "入力されたパスワードと確認用パスワードが異なります。<br>";
 			}
 
-			if(UserDao.isOverlapEmail(udb.getEmail())) {
+			if(UserDao.isOverlapEmail(email)&&!email.equals(udb.getEmail())) {
 				errMsg += "入力されたメールアドレスは既に使用されています。";
 			}
 
 			if(errMsg.length()!=0) {
+				if(password.length()!=0) {
+					udb.setPassword(password);
+				}
+				udb.setEmail(email);
 				request.setAttribute("udb", udb);
 				request.setAttribute("errMsg", errMsg);
-				request.getRequestDispatcher(Controllor.REGIST_PAGE).forward(request, response);
+				request.getRequestDispatcher(Controllor.UPDATE_USER_PAGE).forward(request, response);
 			}else {
 				session.setAttribute("udb", udb);
-				response.sendRedirect("RegistConfirm");
+				response.sendRedirect("UpdateUserConfirm");
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

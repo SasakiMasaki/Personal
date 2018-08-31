@@ -33,6 +33,7 @@ public class User extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		request.setAttribute("redirectMsg", session.getAttribute("redirectMsg")!=null ? (String)Controllor.getSessionAttribute(session, "redirectMsg") : "");
 
 		if(session.getAttribute("id") == null) {
 			request.setAttribute("backUrl", "User");
@@ -58,8 +59,9 @@ public class User extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-		if(action.equals("update")) {
+		HttpSession session = request.getSession();
+
+		if(request.getParameter("action").equals("update")) {
 			response.sendRedirect("UpdateUser");
 			return;
 		}

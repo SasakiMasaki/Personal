@@ -1,6 +1,7 @@
 package myec;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,18 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.UserDataBeans;
+import dao.UserDao;
 
 /**
- * Servlet implementation class RegistConfirm
+ * Servlet implementation class UpdateUserConfirm
  */
-@WebServlet("/RegistConfirm")
-public class RegistConfirm extends HttpServlet {
+@WebServlet("/UpdateUserConfirm")
+public class UpdateUserConfirm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegistConfirm() {
+    public UpdateUserConfirm() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +37,14 @@ public class RegistConfirm extends HttpServlet {
 		UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
 
 		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "Regist");
+			request.setAttribute("backUrl", "UpdateUser");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
 			dispatcher.forward(request, response);
 			return;
 		}
 
 		request.setAttribute("udb", udb);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.REGIST_CONFIRM_PAGE);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(Controllor.UPDATE_USER_CONFIRM_PAGE);
 		dispatcher.forward(request, response);
 	}
 
@@ -57,14 +59,21 @@ public class RegistConfirm extends HttpServlet {
 		udb.setAddress(request.getParameter("address"));
 		udb.setEmail(request.getParameter("email"));
 		udb.setPassword(request.getParameter("password"));
-		session.setAttribute("udb", udb);
 
 		switch(request.getParameter("confirm")) {
 		case("cancel"):
-			response.sendRedirect("Regist");
+			session.setAttribute("udb", udb);
+			response.sendRedirect("UpdateUser");
 			break;
-		case("regist"):
-			response.sendRedirect("RegistResult");
+		case("update"):
+			String redirectMsg = "登録情報を更新しました";
+			try {
+				UserDao.updateUser(udb);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("redirectMsg", redirectMsg);
+			response.sendRedirect("User");
 			break;
 		}
 	}

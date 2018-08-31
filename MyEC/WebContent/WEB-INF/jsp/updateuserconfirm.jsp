@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/baselayout/head.jsp" />
-	<title>登録情報確認</title>
+	<title>更新情報確認</title>
 	<%
 		UserDataBeans udb = (UserDataBeans)request.getAttribute("udb");
 	%>
@@ -13,9 +13,9 @@
 <body>
 	<jsp:include page="/baselayout/header.jsp" />
 	<div class="container">
-		<form action="RegistConfirm" method="post">
+		<form action="UpdateUserConfirm" method="post">
 			<div class="main-container">
-				<h1>登録情報確認</h1>
+				<h1>更新情報確認</h1>
 				<table>
 					<tr>
 						<th>名前</th>
@@ -31,13 +31,13 @@
 					</tr>
 					<tr>
 						<th>パスワード</th>
-						<td><input type="password" name="password" value="<%=udb.getPassword() %>" readonly></td>
+						<td><input type="password" name="password" value="*******" readonly></td>
 					</tr>
 			</table>
-				<h2>上記内容で情報を登録します。</h2>
+				<h2>上記内容で情報を更新します。</h2>
 				<ul class="inline">
 					<li><button type="submit" name="confirm" value="cancel">戻る</button></li>
-					<li><button type="submit" name="confirm" value="regist">確定する</button></li>
+					<li><button type="submit" name="confirm" value="update">確定する</button></li>
 				</ul>
 			</div>
 		</form>

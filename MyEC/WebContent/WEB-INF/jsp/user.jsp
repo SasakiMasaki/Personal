@@ -10,6 +10,7 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>マイページ</title>
 	<%
+		String redirectMsg = (String)request.getAttribute("redirectMsg");
 		UserDataBeans user = (UserDataBeans)request.getAttribute("user");
 		List<BuyDataBeans> buyList = (ArrayList<BuyDataBeans>)request.getAttribute("buyList");
 	%>
@@ -20,6 +21,9 @@
 		<form action="User" method="post">
 			<div class="main-container">
 				<h1>マイページ</h1>
+				<%if(redirectMsg != null){%>
+				<h2><%=redirectMsg%></h2>
+				<%} %>
 				<table class="form">
 					<tr>
 						<th>名前</th>
