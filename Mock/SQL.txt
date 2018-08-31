@@ -39,3 +39,8 @@ CREATE TABLE buy_detail(
 	, item_number INT
 );
 
+CREATE TABLE file_path(
+	id SERIAL
+	, name VARCHAR(256) NOT NULL
+	, location VARCHER(256) NOT NULL
+);
