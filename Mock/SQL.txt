@@ -42,5 +42,5 @@ CREATE TABLE buy_detail(
 CREATE TABLE file_path(
 	id SERIAL
 	, name VARCHAR(256) NOT NULL
-	, location VARCHER(256) NOT NULL
+	, location VARCHAR(256) NOT NULL
 );

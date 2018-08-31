@@ -34,10 +34,8 @@ public class RegistConfirm extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserDataBeans udb = (UserDataBeans)Controllor.getSessionAttribute(session, "udb");
 
-		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "Regist");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
-			dispatcher.forward(request, response);
+		if(udb == null) {
+			response.sendRedirect("Regist");
 			return;
 		}
 

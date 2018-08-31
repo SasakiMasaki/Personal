@@ -33,21 +33,21 @@ public class ItemDetail extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		int itemId = Integer.parseInt((String)Controllor.getSessionAttribute(session, "item_id"));
+		String temp = session.getAttribute("item_id") != null ? (String) Controllor.getSessionAttribute(session, "item_id") : "0" ;
+		int itemId = Integer.parseInt(temp);
 		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
 
 		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "Controll");
+			request.setAttribute("backUrl", "Top");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
 			dispatcher.forward(request, response);
 			return;
-		}else if((Integer)session.getAttribute("id") != 1){
+		}else if(itemId == 0){
+			if((Integer)session.getAttribute("id") == 1) {
+				response.sendRedirect("Controll");
+				return;
+			}
 			response.sendRedirect("Top");
-			return;
-		}
-
-		if(itemId == 0) {
-			response.sendRedirect("Controll");
 			return;
 		}
 
@@ -64,7 +64,8 @@ public class ItemDetail extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		int itemId = Integer.parseInt(request.getParameter("item_id"));
+		String temp = request.getParameter("item_id") != null ? (String) request.getParameter("item_id") : "0" ;
+		int itemId = Integer.parseInt(temp);
 
 		switch(request.getParameter("action")) {
 		case("update"):
@@ -76,6 +77,8 @@ public class ItemDetail extends HttpServlet {
 			response.sendRedirect("ItemDelete");
 			return;
 		case("cart"):
+			String redirectMsg = "カートに商品を入れました";
+			session.setAttribute("redirectMsg", redirectMsg);
 			session.setAttribute("item_id", itemId);
 			response.sendRedirect("ItemDetail");
 			return;

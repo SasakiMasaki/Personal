@@ -2,6 +2,7 @@ package myec;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.ItemDataBeans;
 import beans.SearchIndexBeans;
 import dao.ItemDao;
 
@@ -33,11 +35,12 @@ public class SearchResult extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String keyword = (String)Controllor.getSessionAttribute(session, "keyword");
+		String keyword = session.getAttribute("keyword") != null ? (String)Controllor.getSessionAttribute(session, "keyword") : "";
 		SearchIndexBeans indexs = new SearchIndexBeans();
 
-		if(keyword == null) {
+		if(keyword.length() == 0) {
 			request.setAttribute("indexs", indexs);
+			request.setAttribute("itemList", new ArrayList<ItemDataBeans>());
 			request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
 			return;
 		}

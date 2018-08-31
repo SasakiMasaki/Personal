@@ -29,14 +29,12 @@
 				<ul class="grid">
 					<%for(ItemDataBeans item : itemList){%>
 					<li class="content">
-									<label for="detail">
-										<img alt="<%=item.getFileName()%>" src="<%="img/" + item.getFileName()%>"><br>
-										<%=item.getName()%><br>
-										<%=item.getPrice()%>円
-										<input type="submit" id="detail"name="detail" value=<%=item.getId()%>>
-									</label>
-<%-- 									<button type="submit" name="detail" value=<%=item.getId()%>> --%>
-<!-- 									</button> -->
+						<label for="detail">
+							<img alt="<%=item.getFileName()%>" src="<%="img/" + item.getFileName()%>"><br>
+							<%=item.getName()%><br>
+							<%=item.getPrice()%>円
+							<input type="submit" id="detail"name="detail" value=<%=item.getId()%>>
+						</label>
 					</li>
 					<%}%>
 				</ul>
