@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<jsp:include page="/baselayout/head.jsp" />
 	<%
-		SearchIndexBeans indexs = (SearchIndexBeans)request.getAttribute("indexs");
+		SearchIndexBeans indexs = (SearchIndexBeans)session.getAttribute("indexs");
 		List<ItemDataBeans> itemList = (ArrayList<ItemDataBeans>)request.getAttribute("itemList");
 	%>
 	<title>「<%=indexs.getKeyword()%>」の検索結果</title>
@@ -25,7 +25,6 @@
 				</div>
 			</form>
 			<form action="SearchResult" method="post">
-				<input type="hidden" name="keyword">
 				<ul class="grid">
 					<%for(ItemDataBeans item : itemList){%>
 					<li class="content">

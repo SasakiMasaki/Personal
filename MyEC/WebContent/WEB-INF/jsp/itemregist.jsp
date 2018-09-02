@@ -14,7 +14,7 @@
 				<h2>商品新規登録</h2>
 				<div class="flex">
 					<div class="product">
-						<img alt="サンプル商品の画像" src="img/sample2.png">
+						<img alt="サンプル商品の画像" src="img/sample.png">
 						<table>
 							<tr>
 								<th>商品名</th>

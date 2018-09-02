@@ -85,10 +85,8 @@ public class ItemUpdate extends HttpServlet {
 
 				if (getFileName(part).indexOf(".") != -1) {
 					item.setFileName(("image_" + item.getId() + getFileName(part).substring(getFileName(part).indexOf("."))));
+					part.write(FileDao.getLocation("img") + item.getFileName());
 				}
-
-
-				part.write(FileDao.getLocation("img") + item.getFileName());
 				ItemDao.updateItem(item);
 				session.setAttribute("item_id", itemId);
 				session.setAttribute("redirectMsg", "商品情報を更新しました");

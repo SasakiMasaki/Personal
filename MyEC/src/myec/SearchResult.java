@@ -55,7 +55,7 @@ public class SearchResult extends HttpServlet {
 			}
 		}
 
-		request.setAttribute("indexs", indexs);
+		session.setAttribute("indexs", indexs);
 		request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
 	}
 
@@ -65,8 +65,10 @@ public class SearchResult extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		SearchIndexBeans indexs = new SearchIndexBeans();
-		indexs.setKeyword((String)request.getParameter("keyword"));
+		SearchIndexBeans indexs = (SearchIndexBeans)session.getAttribute("indexs");
+		if(request.getParameter("keyword") != null) {
+			indexs.setKeyword((String)request.getParameter("keyword"));
+		}
 		if(request.getParameter("index") != null) {
 			indexs.setIndex(Integer.parseInt(request.getParameter("index")));
 		}

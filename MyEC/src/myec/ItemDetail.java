@@ -107,11 +107,12 @@ public class ItemDetail extends HttpServlet {
 			response.sendRedirect("ItemDetail");
 			return;
 		case("return"):
-			if(session.getAttribute("id").equals("1")) {
+			int id = session.getAttribute("id") != null ? (Integer)session.getAttribute("id") : 0 ;
+			if(id == 1) {
 				response.sendRedirect("Controll");
 				return;
 			}
-
+			response.sendRedirect("SearchResult");
 			return;
 		}
 	}
