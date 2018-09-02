@@ -64,9 +64,11 @@ public class Buy extends HttpServlet {
 		switch(request.getParameter("action")) {
 		case("return"):
 			response.sendRedirect("Cart");
+			return;
 		case("buy"):
 			session.setAttribute("dmId", Integer.parseInt(request.getParameter("dmId")));
 			response.sendRedirect("BuyResult");
+			return;
 		}
 	}
 

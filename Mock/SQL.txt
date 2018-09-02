@@ -36,7 +36,7 @@ CREATE TABLE buy_detail(
 	id SERIAL
 	, buy_id INT
 	, item_id INT
-	, item_number INT
+	, item_count INT
 );
 
 CREATE TABLE file_path(

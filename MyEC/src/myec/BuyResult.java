@@ -1,6 +1,7 @@
 package myec;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.BuyDataBeans;
+import beans.BuyDetailDataBeans;
+import beans.DeliveryMethodDataBeans;
 import beans.ItemDataBeans;
+import dao.BuyDao;
+import dao.BuyDetailDao;
+import dao.DeliveryMethodDao;
 
 /**
  * Servlet implementation class BuyResult
@@ -38,6 +45,28 @@ public class BuyResult extends HttpServlet {
 
 		if(cart == null || dmId == null) {
 			response.sendRedirect("Cart");
+		}
+
+		try {
+			DeliveryMethodDataBeans dm = DeliveryMethodDao.getDeliveryMethodById(dmId);
+			int totalPrice = dm.getPrice();
+			for(ItemDataBeans item : cart) {
+				totalPrice += item.getPrice() * item.getCount();
+			}
+			BuyDataBeans bdb = new BuyDataBeans();
+			bdb.setUserId((Integer)session.getAttribute("id"));
+			bdb.setDeliveryMethod(dm.getId());
+			bdb.setTotalPrice(totalPrice);
+			int buyId = BuyDao.insertBuyData(bdb);
+			for(ItemDataBeans item : cart) {
+				BuyDetailDataBeans bddb =new BuyDetailDataBeans();
+				bddb.setBuyId(buyId);
+				bddb.setItemId(item.getId());
+				bddb.setItemCount(item.getCount());
+				BuyDetailDao.insertBuyDetail(bddb);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		request.getRequestDispatcher(Controllor.BUY_RESULT_PAGE).forward(request,response);
