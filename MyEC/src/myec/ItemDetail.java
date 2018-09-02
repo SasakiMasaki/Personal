@@ -2,8 +2,9 @@ package myec;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.ItemDataBeans;
 import dao.ItemDao;
 
 /**
@@ -33,26 +35,20 @@ public class ItemDetail extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String temp = session.getAttribute("item_id") != null ? (String) Controllor.getSessionAttribute(session, "item_id") : "0" ;
-		int itemId = Integer.parseInt(temp);
 		request.setAttribute("redirectMsg", Controllor.getSessionAttribute(session, "redirectMsg"));
+		int itemId = 0;
 
-		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "Top");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
-			dispatcher.forward(request, response);
-			return;
-		}else if(itemId == 0){
-			if((Integer)session.getAttribute("id") == 1) {
-				response.sendRedirect("Controll");
-				return;
-			}
+		if(session.getAttribute("item_id") != null) {
+			itemId = Integer.parseInt((String) Controllor.getSessionAttribute(session, "item_id"));
+		}
+
+		if(itemId == 0){
 			response.sendRedirect("Top");
 			return;
 		}
 
 		try {
-			request.setAttribute("item", ItemDao.getItemById((int)itemId));
+			request.setAttribute("item", ItemDao.getItemById(itemId));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +60,10 @@ public class ItemDetail extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String temp = request.getParameter("item_id") != null ? (String) request.getParameter("item_id") : "0" ;
-		int itemId = Integer.parseInt(temp);
+		if(request.getParameter("item_id") == null) {
+			response.sendRedirect("Top");
+		}
+		String itemId = request.getParameter("item_id");
 
 		switch(request.getParameter("action")) {
 		case("update"):
@@ -77,14 +75,42 @@ public class ItemDetail extends HttpServlet {
 			response.sendRedirect("ItemDelete");
 			return;
 		case("cart"):
-			String redirectMsg = "カートに商品を入れました";
-			session.setAttribute("redirectMsg", redirectMsg);
+			List<ItemDataBeans> cart = (ArrayList<ItemDataBeans>)Controllor.getSessionAttribute(session, "cart");
+			int listNum = 0;
+			if(cart == null) {
+				cart = new ArrayList<ItemDataBeans>();
+			}
+			for(ItemDataBeans item : cart){
+				if(item.getId() == Integer.parseInt(itemId)){
+					listNum = cart.indexOf(item);
+					break;
+				}
+			}
+			if(listNum == 0) {
+				int count = cart.get(listNum).getCount() + Integer.parseInt(request.getParameter("count"));
+				if(count > 99) {
+					count = 99;
+				}
+				cart.get(listNum).setCount(count);
+			}else {
+				try {
+					cart.add(ItemDao.getItemById(Integer.parseInt(itemId)));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			session.setAttribute("cart", cart);
+			session.setAttribute("redirectMsg", "カートに商品を入れました");
 			session.setAttribute("item_id", itemId);
 			response.sendRedirect("ItemDetail");
 			return;
 		case("return"):
-			response.sendRedirect("Controll");
-		return;
+			if(session.getAttribute("id").equals("1")) {
+				response.sendRedirect("Controll");
+				return;
+			}
+
+			return;
 		}
 	}
 }

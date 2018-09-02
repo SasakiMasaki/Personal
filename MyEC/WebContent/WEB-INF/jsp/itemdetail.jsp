@@ -1,3 +1,4 @@
+<%@page import="beans.SearchIndexBeans"%>
 <%@page import="beans.ItemDataBeans"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,6 +9,7 @@
 	<title>商品詳細情報画面</title>
 	<%
 		int id = (Integer)session.getAttribute("id");
+		String redirectMsg = (String)request.getAttribute("redirectMsg");
 		ItemDataBeans item = (ItemDataBeans)request.getAttribute("item");
 	%>
 </head>
@@ -17,6 +19,9 @@
 		<form action="ItemDetail" method="post">
 			<div class="main-container">
 				<h2>「<%=item.getName()%>」の詳細ページ</h2>
+				<%if(redirectMsg != null){%>
+				<h2><%=redirectMsg%></h2>
+				<%}%>
 				<div class="flex">
 					<div class="product">
 						<img alt="<%=item.getFileName()%>" src="<%="img/"+item.getFileName()%>">
@@ -28,7 +33,7 @@
 						<%if(id != 1){%>
 							<tr>
 								<th>個数</th>
-								<td><input type="number" name="number" value="1" min="1" max="99"></td>
+								<td><input type="number" name="count" value="1" min="1" max="99"></td>
 							</tr>
 						<%}%>
 						</table>

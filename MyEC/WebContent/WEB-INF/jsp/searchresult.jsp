@@ -21,7 +21,7 @@
 			<form action="SearchResult" method="post">
 				<h2>「<%=indexs.getKeyword()%>」の検索結果：<%=indexs.getResultNum()%>件の商品が見つかりました</h2>
 				<div class="form inline">
-					<input type="text" name="search"><button>検索</button>
+					<input type="text" name="keyword"><button>検索</button>
 				</div>
 			</form>
 			<form action="SearchResult" method="post">
@@ -50,13 +50,13 @@
 						<input type="submit" id="<%=indexs.getIndex() - 1%>" name="index" value=<%=indexs.getIndex() - 1%>>
 					</label>
 					<%}
-					for(int i = 1 ; i <= indexs.getPageNum() ;i++){
+					for(int i = indexs.getPageNum() - 4; i <= indexs.getPageNum() + 4 ;i++){
 					if(i == indexs.getIndex()){%>
 					<label for="<%=i%>" class="content disabled">
 						<%=i%>
 						<input type="submit" id="<%=i%>" name="index" value=<%=i%> disabled>
 					</label>
-					<%}else if(indexs.getIndex() - 5 < i && i < indexs.getIndex() + 5){%>
+					<%}else if(0 < i){%>
 					<label for="<%=i%>" class="content">
 						<%=i%>
 						<input type="submit" id="<%=i%>" name="index" value=<%=i%>>

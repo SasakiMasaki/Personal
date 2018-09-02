@@ -8,6 +8,7 @@ public class ItemDataBeans implements Serializable{
 	private String detail;
 	private int price;
 	private String fileName;
+	private int count;
 
 	public int getId() {
 		return id;
@@ -38,5 +39,11 @@ public class ItemDataBeans implements Serializable{
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 }

@@ -33,6 +33,7 @@ public class User extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Controllor.getSessionAttribute(session, "indexs");
 		request.setAttribute("redirectMsg", session.getAttribute("redirectMsg")!=null ? (String)Controllor.getSessionAttribute(session, "redirectMsg") : "");
 
 		if(session.getAttribute("id") == null) {

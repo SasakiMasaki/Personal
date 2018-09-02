@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.SearchIndexBeans;
+
 /**
  * Servlet implementation class Top
  */
@@ -38,7 +40,9 @@ public class Top extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		session.setAttribute("keyword", request.getParameter("keyword"));
+		SearchIndexBeans indexs = new SearchIndexBeans();
+		indexs.setKeyword(request.getParameter("keyword"));
+		session.setAttribute("indexs", indexs);
 		response.sendRedirect("SearchResult");
 	}
 
