@@ -1,9 +1,9 @@
 package myec;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.DeliveryMethodDao;
+import beans.ItemDataBeans;
 
 /**
- * Servlet implementation class Buy
+ * Servlet implementation class BuyResult
  */
-@WebServlet("/Buy")
-public class Buy extends HttpServlet {
+@WebServlet("/BuyResult")
+public class BuyResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Buy() {
+    public BuyResult() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,40 +34,21 @@ public class Buy extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Integer dmId = (Integer)Controllor.getSessionAttribute(session, "dmId");
+		List<ItemDataBeans> cart = (ArrayList<ItemDataBeans>) Controllor.getSessionAttribute(session, "cart");
 
-		if(session.getAttribute("id") == null) {
-			request.setAttribute("backUrl", "Cart");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
-			dispatcher.forward(request, response);
-			return;
-		}
-
-		if(session.getAttribute("cart") == null) {
+		if(cart == null || dmId == null) {
 			response.sendRedirect("Cart");
-			return;
 		}
 
-		try {
-			request.setAttribute("dm", DeliveryMethodDao.getDeliveryMethodById(dmId));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher(Controllor.BUY_PAGE).forward(request, response);
+		request.getRequestDispatcher(Controllor.BUY_RESULT_PAGE).forward(request,response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-
-		switch(request.getParameter("action")) {
-		case("return"):
-			response.sendRedirect("Cart");
-		case("buy"):
-			session.setAttribute("dmId", Integer.parseInt(request.getParameter("dmId")));
-			response.sendRedirect("BuyResult");
-		}
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

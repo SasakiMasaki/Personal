@@ -12,7 +12,7 @@ import beans.SearchIndexBeans;
 
 public class ItemDao {
 
-	public static int getNumberOfResult(String keyword) {
+	public static int getNumberOfResult(String keyword) throws SQLException {
 		Connection con = DBManager.getConnection();
 		int resultNum = 0;
 		try {
@@ -24,6 +24,10 @@ public class ItemDao {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
 		}
 		return resultNum;
 	}
@@ -54,6 +58,10 @@ public class ItemDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
 		}
 	}
 	public static int getLastId() throws SQLException{
@@ -177,6 +185,10 @@ public class ItemDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
 		}
 	}
 
@@ -200,6 +212,10 @@ public class ItemDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
 		}
 	}
 
@@ -224,6 +240,10 @@ public class ItemDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException();
+		}finally {
+			if(con != null) {
+				con.close();
+			}
 		}
 	}
 }

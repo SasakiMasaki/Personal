@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="beans.DeliveryMethodDataBeans"%>
 <%@page import="beans.ItemDataBeans"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
@@ -8,6 +10,7 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>カート</title>
 	<%
+		List<DeliveryMethodDataBeans> dmList = (ArrayList<DeliveryMethodDataBeans>)request.getAttribute("dmList");
 		ArrayList<ItemDataBeans> cart = new ArrayList<ItemDataBeans>();
 		cart = (ArrayList<ItemDataBeans>)session.getAttribute("cart");
 	%>
@@ -22,21 +25,32 @@
 				<h2><a href="Top">トップページへ</a></h2>
 			<%}else {%>
 				<form action="Cart" method="post">
-					<table>
+					<table class="cart">
 						<thead>
 							<tr>
-								<td>商品名</td>
+								<th>商品名</th>
 								<td>個数</td>
 								<td></td>
 							</tr>
 						</thead>
 						<%for(ItemDataBeans item : cart){%>
 							<tr>
-								<td><%=item.getName()%></td>
+								<th><%=item.getName()%></th>
 								<td><input type="number" name="<%=cart.indexOf(item)%>" value=<%=item.getCount()%> min="0" max="99"></td>
 								<td><button type="submit" name="cancell" value="<%=cart.indexOf(item)%>" >取り消し</button></td>
 							</tr>
 						<%}%>
+							<tr>
+								<th>配送方法</th>
+								<td>
+									<select name="dmId">
+									<%for(DeliveryMethodDataBeans dm : dmList){%>
+										<option value=<%=dm.getId()%>><%=dm.getName()%></option>
+									<%}%>
+									</select>
+								</td>
+								<td></td>
+							</tr>
 						<tfoot>
 							<tr>
 							</tr>

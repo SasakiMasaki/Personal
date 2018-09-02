@@ -4,12 +4,42 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mysql.jdbc.Statement;
 
 import beans.BuyDataBeans;
 
 public class BuyDao {
+
+	public static int insertBuyData(BuyDataBeans bdb) throws SQLException {
+		Connection con = DBManager.getConnection();
+		int buyId = 0;
+
+		try {
+			PreparedStatement st = con.prepareStatement("INSERT INTO buy(user_id, total_price, delivery_method, buy_date) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			st.setInt(1, bdb.getId());
+			st.setInt(2, bdb.getTotalPrice());
+			st.setInt(3, bdb.getDeliveryMethod());
+			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			st.executeUpdate();
+
+			ResultSet rs = st.getGeneratedKeys();
+			while(rs.next()) {
+				buyId = rs.getInt(1);
+			}
+			System.out.println("inserting buy_data has been completed");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return buyId;
+	}
 
 	public static List<BuyDataBeans> getBuyDataListByUserId(int userId) throws SQLException{
 		List<BuyDataBeans> buyList = new ArrayList<BuyDataBeans>();

@@ -44,3 +44,7 @@ CREATE TABLE file_path(
 	, name VARCHAR(256) NOT NULL
 	, location VARCHAR(256) NOT NULL
 );
+
+INSERT INTO delivery_method(name, price) VALUES('通常配送', 500);
+INSERT INTO delivery_method(name, price) VALUES('即日配送', 1000);
+INSERT INTO delivery_method(name, price) VALUES('日時指定配送', 1500);

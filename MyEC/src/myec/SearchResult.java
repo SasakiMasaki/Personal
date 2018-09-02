@@ -47,8 +47,8 @@ public class SearchResult extends HttpServlet {
 			request.setAttribute("indexs", indexs);
 			request.setAttribute("itemList", new ArrayList<ItemDataBeans>());
 		}else {
-			indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
 			try {
+				indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
 				request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(indexs));
 			}catch(SQLException e){
 				e.printStackTrace();

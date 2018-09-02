@@ -9,6 +9,8 @@ public class BuyDataBeans implements Serializable{
 	private int totalPrice;
 	private int deliveryMethod;
 	private Date buyDate;
+
+
 	public int getId() {
 		return id;
 	}

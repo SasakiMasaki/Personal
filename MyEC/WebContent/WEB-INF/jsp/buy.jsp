@@ -1,3 +1,4 @@
+<%@page import="beans.DeliveryMethodDataBeans"%>
 <%@page import="beans.ItemDataBeans"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -9,7 +10,9 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>購入確認画面</title>
 	<%
-		List<ItemDataBeans> cartTemp = (ArrayList<ItemDataBeans>)request.getAttribute("cartTemp");
+		int total = 0;
+		DeliveryMethodDataBeans dm = (DeliveryMethodDataBeans)request.getAttribute("dm");
+		List<ItemDataBeans> cart = (ArrayList<ItemDataBeans>)session.getAttribute("cart");
 	%>
 </head>
 <body>
@@ -27,30 +30,32 @@
 							<td>小計</td>
 						</tr>
 					</thead>
-					<%for(ItemDataBeans item : cartTemp){%>
+					<%for(ItemDataBeans item : cart){%>
 					<tr>
 						<td><%=item.getName()%></td>
 						<td><%=item.getPrice()%>円</td>
 						<td><%=item.getCount()%></td>
 						<td><%=item.getPrice() * item.getCount()%>円</td>
 					</tr>
-					<%}%>
+					<%total += item.getPrice() * item.getCount();
+					}%>
 					<tr>
-						<td>配送方法＜サンプル1＞</td>
+						<td><%=dm.getName()%></td>
 						<td></td>
 						<td></td>
-						<td>123456789円</td>
+						<td><%=dm.getPrice()%>円</td>
 					</tr>
 					<tfoot>
 						<tr>
 							<td>合計</td>
 							<td></td>
 							<td></td>
-							<td>123456789円</td>
+							<td><%=total + dm.getPrice()%>円</td>
 						</tr>
 					</tfoot>
 				</table>
 				<h2>上記でお間違いなければ購入を確定します。</h2>
+				<input type="hidden" name="dmId" value=<%=dm.getId()%>>
 				<ul class="inline">
 					<li><button type="submit" name="action" value="return">戻る</button></li>
 					<li><button type="submit" name="action" value="buy">確定する</button></li>

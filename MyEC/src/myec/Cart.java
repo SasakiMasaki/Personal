@@ -1,6 +1,7 @@
 package myec;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.ItemDataBeans;
+import dao.DeliveryMethodDao;
 
 /**
  * Servlet implementation class Cart
@@ -33,6 +35,11 @@ public class Cart extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			request.setAttribute("dmList", DeliveryMethodDao.getAllDeliveryMethod());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		request.getRequestDispatcher(Controllor.CART_PAGE).forward(request, response);
 	}
 
@@ -68,7 +75,8 @@ public class Cart extends HttpServlet {
 				itr.remove();
 			}
 		}
-		session.setAttribute("cartTemp", cart);
+		session.setAttribute("dmId", Integer.parseInt(request.getParameter("dmId")));
+		session.setAttribute("cart", cart);
 		response.sendRedirect("Buy");
 	}
 

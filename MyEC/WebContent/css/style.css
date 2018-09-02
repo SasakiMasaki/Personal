@@ -76,10 +76,10 @@ a{
 	text-decoration:none;
 	color:inherit;
 }
-a:hover,button:hover,label:hover, .disabled{
+a:hover,button:hover,label:hover,.disabled {
 	opacity:0.5;
 }
-input,button,label{
+input,button,label,select {
 	margin:0px;
 	padding:0px;
 	font-weight:bolder;
@@ -91,7 +91,7 @@ input,button,label{
 	border-style:none;
 	vertical-align:baseline;
 }
-input[type="number"],textarea{
+input[type="number"],textarea,select{
 	border:thin inset;
 }
 textarea{
@@ -178,4 +178,10 @@ tfoot{
 }
 #sample{
 	height:300px;
+}
+.cart th{
+	width:70%;
+}
+.cart td *{
+	width:100%
 }
