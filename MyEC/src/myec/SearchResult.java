@@ -2,6 +2,7 @@ package myec;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.ItemDataBeans;
 import beans.SearchIndexBeans;
 import dao.ItemDao;
 
@@ -33,21 +35,26 @@ public class SearchResult extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		SearchIndexBeans indexs = (SearchIndexBeans)Controllor.getSessionAttribute(session, "keyword");
+		SearchIndexBeans indexs = (SearchIndexBeans)Controllor.getSessionAttribute(session, "indexs");
 
 		if(indexs == null) {
-			indexs = new SearchIndexBeans();
-			request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
+			response.sendRedirect("Top");
 			return;
 		}
 
-		indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
-
-		try {
-			request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(indexs));
-		}catch(SQLException e){
-			e.printStackTrace();
+		if(indexs.getKeyword().length() == 0) {
+			indexs = new SearchIndexBeans();
+			request.setAttribute("indexs", indexs);
+			request.setAttribute("itemList", new ArrayList<ItemDataBeans>());
+		}else {
+			indexs.setResultNum(ItemDao.getNumberOfResult(indexs.getKeyword()));
+			try {
+				request.setAttribute("itemList", ItemDao.getItemListResultByKeyword(indexs));
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
+
 		request.setAttribute("indexs", indexs);
 		request.getRequestDispatcher(Controllor.SEARCH_RESULT_PAGE).forward(request, response);
 	}

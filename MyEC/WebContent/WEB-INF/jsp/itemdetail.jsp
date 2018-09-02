@@ -8,7 +8,10 @@
 	<jsp:include page="/baselayout/head.jsp" />
 	<title>商品詳細情報画面</title>
 	<%
-		int id = (Integer)session.getAttribute("id");
+		int id = 0;
+		if(session.getAttribute("id") != null){
+			id = (Integer)session.getAttribute("id");
+		}
 		String redirectMsg = (String)request.getAttribute("redirectMsg");
 		ItemDataBeans item = (ItemDataBeans)request.getAttribute("item");
 	%>

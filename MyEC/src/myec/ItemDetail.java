@@ -76,7 +76,7 @@ public class ItemDetail extends HttpServlet {
 			return;
 		case("cart"):
 			List<ItemDataBeans> cart = (ArrayList<ItemDataBeans>)Controllor.getSessionAttribute(session, "cart");
-			int listNum = 0;
+			int listNum = -1;
 			if(cart == null) {
 				cart = new ArrayList<ItemDataBeans>();
 			}
@@ -86,7 +86,7 @@ public class ItemDetail extends HttpServlet {
 					break;
 				}
 			}
-			if(listNum == 0) {
+			if(listNum != -1) {
 				int count = cart.get(listNum).getCount() + Integer.parseInt(request.getParameter("count"));
 				if(count > 99) {
 					count = 99;
@@ -94,7 +94,9 @@ public class ItemDetail extends HttpServlet {
 				cart.get(listNum).setCount(count);
 			}else {
 				try {
-					cart.add(ItemDao.getItemById(Integer.parseInt(itemId)));
+					ItemDataBeans item = ItemDao.getItemById(Integer.parseInt(itemId));
+					item.setCount(Integer.parseInt(request.getParameter("count")));
+					cart.add(item);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

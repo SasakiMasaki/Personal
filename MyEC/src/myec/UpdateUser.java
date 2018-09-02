@@ -73,7 +73,7 @@ public class UpdateUser extends HttpServlet {
 			udb.setName(request.getParameter("name"));
 			udb.setAddress(request.getParameter("address"));
 			String email = request.getParameter("email");
-			String password = request.getParameter("password")!=null?request.getParameter("password"):"";
+			String password = request.getParameter("password").length() != 0 ? request.getParameter("password") : "";
 			String confirmPassword = request.getParameter("confirm_password")!=null?request.getParameter("confirm_password"):"";
 			String errMsg = "";
 
@@ -85,11 +85,10 @@ public class UpdateUser extends HttpServlet {
 				errMsg += "入力されたメールアドレスは既に使用されています。";
 			}
 
+			udb.setPassword(password);
+			udb.setEmail(email);
+
 			if(errMsg.length()!=0) {
-				if(password.length()!=0) {
-					udb.setPassword(password);
-				}
-				udb.setEmail(email);
 				request.setAttribute("udb", udb);
 				request.setAttribute("errMsg", errMsg);
 				request.getRequestDispatcher(Controllor.UPDATE_USER_PAGE).forward(request, response);

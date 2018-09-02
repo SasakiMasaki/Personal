@@ -9,6 +9,12 @@ public class SearchIndexBeans implements Serializable{
 	private int pageNum = 1;
 	private int index = 1;
 
+//	public SearchIndexBeans() {
+//		this.keyword = "";
+//		this.resultNum = 0;
+//		this.pageNum = 1;
+//		this.index = 1;
+//	}
 	public String getKeyword() {
 		return keyword;
 	}

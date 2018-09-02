@@ -34,13 +34,24 @@ public class UserDao {
 		Connection con = DBManager.getConnection();
 
 		try {
-			PreparedStatement st = con.prepareStatement("UPDATE user SET name = ?, address = ?, email = ?, password = ? WHERE id = ?");
-			st.setString(1, udb.getName());
-			st.setString(2, udb.getAddress());
-			st.setString(3, udb.getEmail());
-			st.setString(4, Controllor.hashStr(udb.getPassword()));
-			st.setInt(5, udb.getId());
-			st.executeUpdate();
+			String sql = ("UPDATE user SET name = ?, address = ?, email = ? WHERE id = ?");
+			if(udb.getPassword().length() != 0) {
+				sql = ("UPDATE user SET name = ?, address = ?, email = ?, password = ? WHERE id = ?");
+				PreparedStatement st = con.prepareStatement(sql);
+				st.setString(1, udb.getName());
+				st.setString(2, udb.getAddress());
+				st.setString(3, udb.getEmail());
+				st.setString(4, Controllor.hashStr(udb.getPassword()));
+				st.setInt(5, udb.getId());
+				st.executeUpdate();
+			}else {
+				PreparedStatement st = con.prepareStatement(sql);
+				st.setString(1, udb.getName());
+				st.setString(2, udb.getAddress());
+				st.setString(3, udb.getEmail());
+				st.setInt(4, udb.getId());
+				st.executeUpdate();
+			}
 			System.out.println("updateng user has been completed");
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

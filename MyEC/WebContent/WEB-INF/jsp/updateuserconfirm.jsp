@@ -31,7 +31,7 @@
 					</tr>
 					<tr>
 						<th>パスワード</th>
-						<td><input type="password" name="password" value="*******" readonly></td>
+						<td><input type="password" value="*******" readonly></td>
 					</tr>
 			</table>
 				<h2>上記内容で情報を更新します。</h2>
@@ -39,6 +39,7 @@
 					<li><button type="submit" name="confirm" value="cancel">戻る</button></li>
 					<li><button type="submit" name="confirm" value="update">確定する</button></li>
 				</ul>
+				<input type="hidden" name="password" value="<%=udb.getPassword()%>">
 			</div>
 		</form>
 	</div>

@@ -50,7 +50,7 @@
 						<input type="submit" id="<%=indexs.getIndex() - 1%>" name="index" value=<%=indexs.getIndex() - 1%>>
 					</label>
 					<%}
-					for(int i = indexs.getPageNum() - 4; i <= indexs.getPageNum() + 4 ;i++){
+					for(int i = indexs.getIndex() - 4; i <= indexs.getPageNum() && i <= indexs.getIndex() + 4 ;i++){
 					if(i == indexs.getIndex()){%>
 					<label for="<%=i%>" class="content disabled">
 						<%=i%>

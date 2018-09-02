@@ -54,27 +54,28 @@ public class UpdateUserConfirm extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		UserDataBeans udb = new UserDataBeans();
-		udb.setName(request.getParameter("name"));
-		udb.setAddress(request.getParameter("address"));
-		udb.setEmail(request.getParameter("email"));
-		udb.setPassword(request.getParameter("password"));
+		try {
+			UserDataBeans udb = new UserDataBeans();
+			udb.setId((int) session.getAttribute("id"));
+			udb.setName(request.getParameter("name"));
+			udb.setAddress(request.getParameter("address"));
+			udb.setEmail(request.getParameter("email"));
+			udb.setPassword(request.getParameter("password"));
 
-		switch(request.getParameter("confirm")) {
-		case("cancel"):
-			session.setAttribute("udb", udb);
-			response.sendRedirect("UpdateUser");
-			break;
-		case("update"):
-			String redirectMsg = "登録情報を更新しました";
-			try {
+			switch(request.getParameter("confirm")) {
+			case("cancel"):
+				session.setAttribute("udb", udb);
+				response.sendRedirect("UpdateUser");
+				break;
+			case("update"):
+				String redirectMsg = "登録情報を更新しました";
 				UserDao.updateUser(udb);
-			} catch (SQLException e) {
-				e.printStackTrace();
+				session.setAttribute("redirectMsg", redirectMsg);
+				response.sendRedirect("User");
+				break;
 			}
-			session.setAttribute("redirectMsg", redirectMsg);
-			response.sendRedirect("User");
-			break;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -19,19 +19,19 @@
 				<table>
 					<tr>
 						<th>名前</th>
-						<td><input type="text" name="name" value="<%= udb.getName() %>" readonly></td>
+						<td><input type="text" name="name" value="<%=udb.getName()%>" readonly></td>
 					</tr>
 					<tr>
 						<th>住所</th>
-						<td><input type="text" name="address" value="<%= udb.getAddress() %>" readonly></td>
+						<td><input type="text" name="address" value="<%=udb.getAddress()%>" readonly></td>
 					</tr>
 					<tr>
 						<th>メールアドレス</th>
-						<td><input type="email" name="email" value="<%= udb.getEmail() %>" readonly></td>
+						<td><input type="email" name="email" value="<%=udb.getEmail()%>" readonly></td>
 					</tr>
 					<tr>
 						<th>パスワード</th>
-						<td><input type="password" name="password" value="<%=udb.getPassword() %>" readonly></td>
+						<td><input type="password" name="password" value="<%=udb.getPassword()%>" readonly></td>
 					</tr>
 			</table>
 				<h2>上記内容で情報を登録します。</h2>

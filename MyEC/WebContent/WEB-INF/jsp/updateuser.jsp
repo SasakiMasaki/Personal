@@ -35,11 +35,11 @@
 					</tr>
 					<tr>
 						<th>パスワード</th>
-						<td><input type="password" name="pass"></td>
+						<td><input type="password" name="password"></td>
 					</tr>
 					<tr>
 						<th>パスワード(確認)</th>
-						<td><input type="password" name="rePass"></td>
+						<td><input type="password" name="confirm_password"></td>
 					</tr>
 				</table>
 				<h2><button type="submit" name="action" value="update">更新</button></h2>
