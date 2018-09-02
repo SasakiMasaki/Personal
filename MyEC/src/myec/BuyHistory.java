@@ -2,6 +2,8 @@ package myec;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.BuyDataBeans;
+import beans.ItemDataBeans;
 import dao.BuyDao;
+import dao.BuyDetailDao;
 
 /**
  * Servlet implementation class BuyHistory
@@ -44,11 +48,14 @@ public class BuyHistory extends HttpServlet {
 		}
 
 		BuyDataBeans bdb = new BuyDataBeans();
+		List<ItemDataBeans> itemList = new ArrayList<ItemDataBeans>();
 		try {
+			itemList = BuyDetailDao.getItemDataBeansListByBuyId(buyId);
 			bdb = BuyDao.getBuyDataByBuyId(buyId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		request.setAttribute("itemList", itemList);
 		request.setAttribute("bdb", bdb);
 		request.getRequestDispatcher(Controllor.BUY_HISTORY_PAGE).forward(request, response);
 	}
@@ -57,8 +64,7 @@ public class BuyHistory extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendRedirect("User");
 	}
 
 }
